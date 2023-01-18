@@ -1,0 +1,36 @@
+<div class="container">
+  <fieldset>
+    <form [formGroup]="loginForm" (ngSubmit)="submit()">
+
+            <!-- USERNAME -->
+            <!-- ===================================================== -->
+            <div>
+              <label for="login-username" >Username</label>
+                <input id="login-username" type="text" formControlName="username">
+
+                <span  *ngIf="this.loginForm.get('username')?.errors?.['required'] &&
+                             this.loginForm.get('username')?.touched">
+                    Username field is empty.
+                </span>
+            </div>
+
+            <!-- Password -->
+            <!-- ===================================================== -->
+            <div>
+              <label for="login-password">Password</label>
+                <input type="text" formControlName="password">
+                <span  *ngIf="this.loginForm.get('password')?.errors?.['required'] &&
+                            this.loginForm.get('password')?.touched">
+                    Password cannot be empty.
+                </span>
+            </div>
+
+
+            <button type="submit" [disabled]="loginForm.invalid">LOGIN</button>
+
+        </form>
+
+
+  </fieldset>
+
+</div>

@@ -1,0 +1,130 @@
+<div class="container">
+  <fieldset>
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+
+          <!-- USERNAME -->
+          <!-- ===================================================== -->
+          <div>
+            <label for="login-username" >* Username</label>
+              <input id="login-username" type="text" formControlName="username">
+
+              <span  *ngIf="this.registerForm.get('username')?.errors?.['required'] &&
+                           this.registerForm.get('username')?.touched">
+                  Username field is empty.
+              </span>
+          </div>
+
+          <!-- Password -->
+          <!-- ===================================================== -->
+          <div>
+            <label for="login-password">* Password</label>
+              <input id="login-password" type="text" formControlName="password">
+              <span  *ngIf="this.registerForm.get('password')?.errors?.['required'] &&
+                          this.registerForm.get('password')?.touched">
+                  Password cannot be empty.
+              </span>
+          </div>
+
+          <!-- Password confirmation-->
+          <!-- ===================================================== -->
+          <div>
+            <label for="login-password-confirmation">* Repeat password</label>
+              <input id="login-password-confirmation" type="text"
+                     formControlName="passwordConfirmation"
+                     appValidatePasswordConfirmation [firstPassword]="this.registerForm.get('password')?.value">
+
+              <span  *ngIf="this.registerForm.get('passwordConfirmation')?.errors?.['required'] &&
+                          this.registerForm.get('passwordConfirmation')?.touched">
+                  Password cannot be empty.
+              </span>
+              <span  *ngIf="this.registerForm.get('passwordConfirmation')?.errors?.['unequivalentPassword'] &&
+                          this.registerForm.get('passwordConfirmation')?.touched">
+                  Two passwords must be the same.
+              </span>
+          </div>
+
+        <!-- EMAIL -->
+        <!-- ===================================================== -->
+          <div>
+            <label for="login-email">* Email</label>
+              <input id="login-email" type="text" formControlName="email">
+              <span  *ngIf="this.registerForm.get('email')?.errors?.['required'] &&
+                          this.registerForm.get('email')?.touched">
+                  Email cannot be empty.
+              </span>
+            <span   *ngIf="this.registerForm.get('email')?.errors?.['pattern'] &&
+                    this.registerForm.get('email')?.touched">
+                Email hasn't got correct format.
+            </span>
+          </div>
+
+        <!-- CIVIL STATUS -->
+        <!-- ===================================================== -->
+        <div class="">
+          <label for="civilStatus">* Civil Status</label>
+
+          <select id="civilStatus" name="civilStatus" formControlName="civilStatus">
+            <option *ngFor="let status of civilStatuses; let i = index" [value]="status | lowercase" >
+                    {{ status }}
+            </option>
+          </select>
+
+            <span  *ngIf="this.registerForm.get('civilStatus')?.errors?.['required'] &&
+                        this.registerForm.get('civilStatus')?.touched">
+                Civil status cannot be empty.
+            </span>
+        </div>
+
+        <!-- GENDER -->
+        <!-- ===================================================== -->
+        <div class="">
+          <label for="register-gender">* Gender</label>
+          <div>
+
+            <div *ngFor="let gender of genders">
+              <label for="{{ gender }}">{{ gender }}</label>
+              <input type="radio" id="{{ gender }}" name="gender" value="{{ gender }}">
+            </div>
+
+          </div>
+        </div>
+
+        <br>
+        <!-- INFORMATION ABOUT -->
+        <!-- ===================================================== -->
+        <div class="">
+          <fieldset>
+            <legend>Information of interest</legend>
+            <div *ngFor="let type of informationTypes" >
+              <label for="infoInterest">{{ type }}</label>
+              <input type="checkbox" id="{{ type }}" name="infoInterest" value="{{ type }}">
+            </div>
+
+          </fieldset>
+        </div>
+        <br>
+
+        <!-- Accept conditions -->
+        <!-- ===================================================== -->
+        <div class="">
+              <label for="acceptConditions">* Accept conditions</label>
+              <input type="checkbox" id="acceptConditions"
+                     name="acceptConditions" value="conditionsAccepted"
+                     formControlName="acceptConditions">
+
+            <span  *ngIf="this.registerForm.get('acceptConditions')?.errors?.['required'] &&
+                          this.registerForm.get('acceptConditions')?.touched">
+              Must accept the conditions.
+            </span>
+        </div>
+
+        <button type="submit" [disabled]="registerForm.invalid">SEND</button>
+
+
+        </form>
+
+
+  </fieldset>
+
+</div>
+
