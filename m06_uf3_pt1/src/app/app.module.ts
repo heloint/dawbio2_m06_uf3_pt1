@@ -21,7 +21,7 @@ import { ValidatePasswordConfirmationDirective } from './directives/validate-pas
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

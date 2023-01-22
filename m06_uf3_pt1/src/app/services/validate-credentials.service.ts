@@ -6,12 +6,15 @@ import { User } from '../models/user.model';
 })
 export class ValidateCredentialsService implements OnInit {
 
-  #userArr!: Array<User>;
+  // #userArr!: Array<User>;
 
   roles:            string[] = ['buyer', 'administrator'];
   genders:          string[] = ['Male', 'Female', 'Other'];
   civilStatuses:    string[] = [ "Married", "Single", "Divorced" ];
   informationTypes: string[] = [ "Videogames", "Accessories", "Market news" ];
+
+  #userArr: Array<User> = this.generateUsers(50);
+  isLoggedIn: Boolean = false;
 
   constructor() { }
 
@@ -25,7 +28,7 @@ export class ValidateCredentialsService implements OnInit {
     return collector;
   }
 
-  private generateUsers(userNum: number): Array<User>
+  public generateUsers(userNum: number): Array<User>
   {
     let userArr: Array<User> = [];
 
@@ -54,7 +57,20 @@ export class ValidateCredentialsService implements OnInit {
     return userArr;
   }
 
+  public validateLoginCredens(username: string, password: string): User | null {
+        let validationResult = null;
+
+        this.#userArr.forEach((usr) => {
+            if (usr.username === username &&
+                usr.password === password) {
+                validationResult = usr;
+            }
+        });
+
+        return validationResult;
+  }
+
+
   ngOnInit() {
-    this.#userArr = this.generateUsers(50);
   }
 }
