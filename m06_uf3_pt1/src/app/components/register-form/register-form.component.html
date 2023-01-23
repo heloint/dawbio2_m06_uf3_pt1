@@ -1,11 +1,11 @@
 <div class="container">
   <fieldset>
-    <form [formGroup]="registerForm" (ngSubmit)="register()">
+    <form class="row d-flex justify-content-center" [formGroup]="registerForm" (ngSubmit)="register()">
 
           <!-- USERNAME -->
           <!-- ===================================================== -->
-          <div>
-            <label for="login-username" >* Username</label>
+            <div class="col-5 mt-5 text-center">
+                <label for="login-username" ><u>* Username</u></label>
               <input id="login-username" type="text" formControlName="username">
 
               <span  *ngIf="this.registerForm.get('username')?.errors?.['required'] &&
@@ -14,10 +14,11 @@
               </span>
           </div>
 
+        <div class="w-100"></div>
           <!-- Password -->
           <!-- ===================================================== -->
-          <div>
-            <label for="login-password">* Password</label>
+            <div class="col-5 mt-3 text-center">
+                <label for="login-password"><u>* Password</u></label>
               <input id="login-password" type="text" formControlName="password">
               <span  *ngIf="this.registerForm.get('password')?.errors?.['required'] &&
                           this.registerForm.get('password')?.touched">
@@ -25,10 +26,11 @@
               </span>
           </div>
 
+        <div class="w-100"></div>
           <!-- Password confirmation-->
           <!-- ===================================================== -->
-          <div>
-            <label for="login-password-confirmation">* Repeat password</label>
+        <div class="col-5 mt-3 text-center">
+            <label for="login-password-confirmation"><u>* Repeat password</u></label>
               <input id="login-password-confirmation" type="text"
                      formControlName="passwordConfirmation"
                      appValidatePasswordConfirmation [firstPassword]="this.registerForm.get('password')?.value">
@@ -43,10 +45,11 @@
               </span>
           </div>
 
+        <div class="w-100"></div>
         <!-- EMAIL -->
         <!-- ===================================================== -->
-          <div>
-            <label for="login-email">* Email</label>
+        <div class="col-5 mt-3 text-center">
+            <label for="login-email"><u>* Email</u></label>
               <input id="login-email" type="text" formControlName="email">
               <span  *ngIf="this.registerForm.get('email')?.errors?.['required'] &&
                           this.registerForm.get('email')?.touched">
@@ -58,16 +61,19 @@
             </span>
           </div>
 
+        <div class="w-100"></div>
         <!-- CIVIL STATUS -->
         <!-- ===================================================== -->
-        <div class="">
-          <label for="civilStatus">* Civil Status</label>
+        <div class="col-5 mt-3 text-center">
+            <label for="civilStatus"><u>* Civil Status</u></label>
 
-          <select id="civilStatus" name="civilStatus" formControlName="civilStatus">
-            <option *ngFor="let status of civilStatuses; let i = index" [value]="status | lowercase" >
-                    {{ status }}
-            </option>
-          </select>
+          <div class="mt-2">
+              <select id="civilStatus" name="civilStatus" formControlName="civilStatus">
+                <option *ngFor="let status of civilStatuses; let i = index" [value]="status | lowercase" >
+                        {{ status }}
+                </option>
+              </select>
+          </div>
 
             <span  *ngIf="this.registerForm.get('civilStatus')?.errors?.['required'] &&
                         this.registerForm.get('civilStatus')?.touched">
@@ -75,42 +81,49 @@
             </span>
         </div>
 
+        <div class="w-100"></div>
         <!-- GENDER -->
         <!-- ===================================================== -->
-        <div class="">
-          <label for="register-gender">* Gender</label>
-          <div>
+        <div class="col-5 mt-3 text-center">
+            <label for="register-gender"><u>* Gender</u></label>
+          <div class="d-flex justify-content-around mt-2">
 
-            <div *ngFor="let gender of genders">
-              <label for="{{ gender }}">{{ gender }}</label>
+            <span *ngFor="let gender of genders">
+              <label class="mx-2" for="{{ gender }}">{{ gender }}</label>
               <input type="radio" id="{{ gender }}" name="gender" value="{{ gender }}">
-            </div>
+            </span>
 
           </div>
         </div>
 
-        <br>
+        <div class="w-100"></div>
+
         <!-- INFORMATION ABOUT -->
         <!-- ===================================================== -->
-        <div class="">
-          <fieldset>
-            <legend>Information of interest</legend>
-            <div *ngFor="let type of informationTypes" >
-              <label for="infoInterest">{{ type }}</label>
-              <input type="checkbox" id="{{ type }}" name="infoInterest" value="{{ type }}">
+        <div class="col-9 mt-3 text-center">
+            <p><u>Information of interest</u></p>
+
+            <div class="d-flex justify-content-around">
+                <div *ngFor="let type of informationTypes" >
+                  <label class="mx-2" for="infoInterest">{{ type }}</label>
+                  <input type="checkbox" id="{{ type }}" name="infoInterest" value="{{ type }}">
+                </div>
             </div>
 
-          </fieldset>
         </div>
         <br>
 
+        <div class="w-100"></div>
         <!-- Accept conditions -->
         <!-- ===================================================== -->
-        <div class="">
-              <label for="acceptConditions">* Accept conditions</label>
+        <div class="col-5 mt-3 text-center">
+            <label class="mx-2 mb-2" for="acceptConditions"><b><u>* Accept conditions</u></b></label>
+            <div class="d-flex justify-content-center">
               <input type="checkbox" id="acceptConditions"
                      name="acceptConditions" value="conditionsAccepted"
                      formControlName="acceptConditions">
+
+            </div>
 
             <span  *ngIf="this.registerForm.get('acceptConditions')?.errors?.['required'] &&
                           this.registerForm.get('acceptConditions')?.touched">
@@ -118,8 +131,11 @@
             </span>
         </div>
 
-        <button type="submit" [disabled]="registerForm.invalid">SEND</button>
+        <div class="w-100"></div>
 
+        <div class="mt-4 d-flex justify-content-center">
+            <button type="submit" [disabled]="registerForm.invalid">SEND</button>
+        </div>
 
         </form>
 

@@ -1,10 +1,10 @@
 <div  *ngIf="!this.isLoggedIn" class="container">
   <fieldset>
-    <form [formGroup]="loginForm" (ngSubmit)="submit()">
+    <form class="row d-flex justify-content-center" [formGroup]="loginForm" (ngSubmit)="submit()">
 
             <!-- USERNAME -->
             <!-- ===================================================== -->
-            <div>
+            <div class="col-5 mt-5 text-center">
               <label for="login-username" >Username</label>
                 <input id="login-username" type="text" formControlName="username">
 
@@ -14,9 +14,11 @@
                 </span>
             </div>
 
+            <div class="w-100"></div>
+
             <!-- Password -->
             <!-- ===================================================== -->
-            <div>
+            <div class="col-5 mt-3 text-center">
               <label for="login-password">Password</label>
                 <input type="text" formControlName="password">
                 <span  *ngIf="this.loginForm.get('password')?.errors?.['required'] &&
@@ -25,7 +27,12 @@
                 </span>
             </div>
 
-            <button type="submit" [disabled]="loginForm.invalid">LOGIN</button>
+            <div class="w-100"></div>
+
+            <div class="col-5 mt-3 text-center">
+                <button type="submit" [disabled]="loginForm.invalid">LOGIN</button>
+            </div>
+
         </form>
   </fieldset>
 

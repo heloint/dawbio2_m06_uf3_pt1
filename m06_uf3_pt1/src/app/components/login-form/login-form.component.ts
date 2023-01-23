@@ -25,11 +25,11 @@ export class LoginFormComponent implements OnInit {
       Validators.required,
     ]),
   })
-    
+
   constructor( private route: Router,
                private cookieService: CookieService,
                private credenService: ValidateCredentialsService) {}
-   
+
 
   get isLoggedIn(): Boolean {
         return this.credenService.isLoggedIn;
@@ -60,7 +60,6 @@ export class LoginFormComponent implements OnInit {
         this.cookieService.set(this.validationResult.username, this.validationResult.role, {expires: 3});
         this.credenService.isLoggedIn = true;
         this.route.navigate(['/register']);
-        
     } else {
         // Pass
     }
