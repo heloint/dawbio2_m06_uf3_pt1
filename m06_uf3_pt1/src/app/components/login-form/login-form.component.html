@@ -1,44 +1,53 @@
-<div  *ngIf="!this.isLoggedIn" class="container">
+<div *ngIf="!this.isLoggedIn" class="container">
   <fieldset>
-    <form class="row d-flex justify-content-center" [formGroup]="loginForm" (ngSubmit)="submit()">
+    <form
+      class="row d-flex justify-content-center"
+      [formGroup]="loginForm"
+      (ngSubmit)="submit()"
+    >
+      <!-- USERNAME -->
+      <!-- ===================================================== -->
+      <div class="col-5 mt-5 text-center">
+        <label for="login-username">Username</label>
+        <div class="w-100"></div>
+        <input id="login-username" type="text" formControlName="username" />
 
-            <!-- USERNAME -->
-            <!-- ===================================================== -->
-            <div class="col-5 mt-5 text-center">
-              <label for="login-username" >Username</label>
-                <input id="login-username" type="text" formControlName="username">
+        <span
+          *ngIf="this.loginForm.get('username')?.errors?.['required'] &&
+                             this.loginForm.get('username')?.touched"
+        >
+          Username field is empty.
+        </span>
+      </div>
 
-                <span  *ngIf="this.loginForm.get('username')?.errors?.['required'] &&
-                             this.loginForm.get('username')?.touched">
-                    Username field is empty.
-                </span>
-            </div>
+      <div class="w-100"></div>
 
-            <div class="w-100"></div>
+      <!-- Password -->
+      <!-- ===================================================== -->
+      <div class="col-5 mt-3 text-center">
+        <label for="login-password">Password</label>
+        <div class="w-100"></div>
+        <input type="text" formControlName="password" />
+        <span
+          *ngIf="this.loginForm.get('password')?.errors?.['required'] &&
+                            this.loginForm.get('password')?.touched"
+        >
+          Password cannot be empty.
+        </span>
+      </div>
 
-            <!-- Password -->
-            <!-- ===================================================== -->
-            <div class="col-5 mt-3 text-center">
-              <label for="login-password">Password</label>
-                <input type="text" formControlName="password">
-                <span  *ngIf="this.loginForm.get('password')?.errors?.['required'] &&
-                            this.loginForm.get('password')?.touched">
-                    Password cannot be empty.
-                </span>
-            </div>
+      <div class="w-100"></div>
 
-            <div class="w-100"></div>
-
-            <div class="col-5 mt-3 text-center">
-                <button type="submit" [disabled]="loginForm.invalid">LOGIN</button>
-            </div>
-
-        </form>
+      <div class="col-5 mt-3 text-center">
+        <button class="btn btn-m" type="submit" [disabled]="loginForm.invalid">
+          LOGIN
+        </button>
+      </div>
+    </form>
   </fieldset>
-
 </div>
 
-<div *ngIf="this.isLoggedIn" >
-    <p>User: {{ this.loggedInRole }}</p>
-    <p>{{ this.loggedInUsername }} </p>
+<div *ngIf="this.isLoggedIn">
+  <p>User: {{ this.loggedInRole }}</p>
+  <p>{{ this.loggedInUsername }}</p>
 </div>

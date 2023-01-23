@@ -1,23 +1,48 @@
-<div>
-  <div class="container">
-    <div class="row">
-        <div class="d-flex justify-content-around">
-            <span *ngIf="!this.isLoggedIn" class="col-1">
-              <a routerLink="/login">LOGIN</a>
-            </span>
-            <span class="col-1">
-              <a routerLink="/register">REGISTER</a>
-            </span>
-            <span *ngIf="this.isLoggedIn === true" class="col-1">
-              <a href="" (click)="doLogOut()" >LOGOUT</a>
-            </span>
-      </div>
-    </div>
-  </div>
-
-  <router-outlet></router-outlet>
+<div class="d-flex justify-content-center">
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <a
+        routerLink="/login"
+        class="nav-link active"
+        data-bs-toggle="tab"
+        aria-selected="true"
+        role="tab"
+        >Home</a
+      >
+    </li>
+    <li *ngIf="!this.isLoggedIn" class="nav-item" role="presentation">
+      <a
+        routerLink="/login"
+        class="nav-link"
+        data-bs-toggle="tab"
+        aria-selected="false"
+        role="tab"
+        tabindex="-1"
+        >Login</a
+      >
+    </li>
+    <li class="nav-item" role="presentation">
+      <a
+        routerLink="/register"
+        class="nav-link"
+        data-bs-toggle="tab"
+        aria-selected="false"
+        tabindex="-1"
+        role="tab"
+        >Register</a
+      >
+    </li>
+    <li *ngIf="this.isLoggedIn" class="nav-item" role="presentation">
+      <a
+        (click)="doLogOut()"
+        class="nav-link"
+        aria-selected="false"
+        tabindex="-1"
+        role="tab"
+        >Logout</a
+      >
+    </li>
+  </ul>
 </div>
 
-
-<!-- <app-login-form></app-login-form>
-<app-register-form></app-register-form> -->
+<router-outlet></router-outlet>
