@@ -35,6 +35,7 @@
     <li *ngIf="this.isLoggedIn" class="nav-item" role="presentation">
       <a
         (click)="doLogOut()"
+        routerLink=""
         class="nav-link"
         aria-selected="false"
         tabindex="-1"
@@ -43,6 +44,11 @@
       >
     </li>
   </ul>
+</div>
+
+<div *ngIf="this.isLoggedIn">
+  <p>User: {{ this.loggedInRole }}</p>
+  <p>{{ this.loggedInUsername }}</p>
 </div>
 
 <router-outlet></router-outlet>

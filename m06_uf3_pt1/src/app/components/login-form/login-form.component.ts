@@ -4,6 +4,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ValidateCredentialsService } from '../../services/validate-credentials.service';
 import { User } from '../../models/user.model';
 import { CookieService } from 'ngx-cookie-service';
+import {LocalStorageHandlerService} from '../../services/local-storage-handler.service';
+
 import { AppComponent } from '../../app.component';
 
 @Component({
@@ -16,11 +18,11 @@ export class LoginFormComponent implements OnInit {
   validationResult!: User | null;
 
   loginForm: FormGroup = new FormGroup({
-    username: new FormControl('',
+    username: new FormControl(this.loginUserName,
     [
       Validators.required,
     ]),
-    password: new FormControl('',
+    password: new FormControl(this.loginPassword,
     [
       Validators.required,
     ]),
@@ -28,7 +30,8 @@ export class LoginFormComponent implements OnInit {
 
   constructor( private route: Router,
                private cookieService: CookieService,
-               private credenService: ValidateCredentialsService) {}
+               private credenService: ValidateCredentialsService,
+               private localStorageHandler: LocalStorageHandlerService) {}
 
 
   get isLoggedIn(): Boolean {
@@ -43,8 +46,22 @@ export class LoginFormComponent implements OnInit {
       return Object.values(this.cookieService.getAll())[0];
   }
 
+  get loginUserName() {
+    return this.localStorageHandler.getLocalStorageValue('loginUserName');
+  }
+
+  get loginPassword() {
+    return this.localStorageHandler.getLocalStorageValue('loginPassword');
+  }
+
+  setLocalStorageValue(key: string, value: string) {
+    this.localStorageHandler.saveIntoLocalStorage(key, value);
+
+  }
+
+
   ngOnInit() {
-    console.log(this.cookieService.getAll() == null); 
+    console.log(this.cookieService.getAll() == null);
     if (this.isLoggedIn) {
       this.route.navigate(['/register']);
     }

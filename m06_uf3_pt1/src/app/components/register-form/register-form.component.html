@@ -8,9 +8,9 @@
       <!-- USERNAME -->
       <!-- ===================================================== -->
       <div class="col-5 mt-5 text-center">
-        <label for="login-username"><b>* Username</b></label>
+        <label for="register-username"><b>* Username</b></label>
         <div class="w-100"></div>
-        <input id="login-username" type="text" formControlName="username" />
+        <input (keydown)="setLocalStorageValue('registerUserName', this.registerForm.get('username')?.value)" id="register-username" type="text" formControlName="username" />
 
         <span
           *ngIf="this.registerForm.get('username')?.errors?.['required'] &&
@@ -24,9 +24,9 @@
       <!-- Password -->
       <!-- ===================================================== -->
       <div class="col-5 mt-3 text-center">
-        <label for="login-password"><b>* Password</b></label>
+        <label for="register-password"><b>* Password</b></label>
         <div class="w-100"></div>
-        <input id="login-password" type="text" formControlName="password" />
+        <input  (keydown)="setLocalStorageValue('registerPassword', this.registerForm.get('password')?.value)" id="register-password" type="text" formControlName="password" />
         <span
           *ngIf="this.registerForm.get('password')?.errors?.['required'] &&
                           this.registerForm.get('password')?.touched"
@@ -39,12 +39,13 @@
       <!-- Password confirmation-->
       <!-- ===================================================== -->
       <div class="col-5 mt-3 text-center">
-        <label for="login-password-confirmation"
+        <label for="register-password-confirmation"
           ><b>* Repeat password</b></label
         >
         <div class="w-100"></div>
         <input
-          id="login-password-confirmation"
+          (keydown)="setLocalStorageValue('registerRepeatedPassword', this.registerForm.get('passwordConfirmation')?.value)"
+          id="register-password-confirmation"
           type="text"
           formControlName="passwordConfirmation"
           appValidatePasswordConfirmation
@@ -69,9 +70,10 @@
       <!-- EMAIL -->
       <!-- ===================================================== -->
       <div class="col-5 mt-3 text-center">
-        <label for="login-email"><b>* Email</b></label>
+        <label for="register-email"><b>* Email</b></label>
         <div class="w-100"></div>
-        <input id="login-email" type="text" formControlName="email" />
+        <input (keydown)="setLocalStorageValue('registerEmail', this.registerForm.get('email')?.value)"
+               id="register-email" type="text" formControlName="email" />
         <span
           *ngIf="this.registerForm.get('email')?.errors?.['required'] &&
                           this.registerForm.get('email')?.touched"
@@ -94,6 +96,8 @@
 
         <div class="mt-2">
           <select
+
+            (change)="setLocalStorageValue('registerCivilStatus', this.registerForm.get('civilStatus')?.value)"
             id="civilStatus"
             name="civilStatus"
             formControlName="civilStatus"
@@ -128,6 +132,8 @@
               id="{{ gender }}"
               name="gender"
               value="{{ gender }}"
+              formControlName="gender"
+              (change)="setLocalStorageValue('registerGender', this.registerForm.get('gender')?.value)"
             />
           </span>
         </div>
@@ -148,6 +154,7 @@
               id="{{ type }}"
               name="infoInterest"
               value="{{ type }}"
+              formControlName="informationTypes"
             />
           </div>
         </div>

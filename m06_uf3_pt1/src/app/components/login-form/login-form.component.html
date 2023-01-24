@@ -10,7 +10,7 @@
       <div class="col-5 mt-5 text-center">
         <label for="login-username">Username</label>
         <div class="w-100"></div>
-        <input id="login-username" type="text" formControlName="username" />
+        <input (keydown)="setLocalStorageValue('loginUserName', this.loginForm.get('username')?.value)" id="login-username" type="text" formControlName="username" />
 
         <span
           *ngIf="this.loginForm.get('username')?.errors?.['required'] &&
@@ -27,7 +27,7 @@
       <div class="col-5 mt-3 text-center">
         <label for="login-password">Password</label>
         <div class="w-100"></div>
-        <input type="text" formControlName="password" />
+        <input (keydown)="setLocalStorageValue('loginPassword', this.loginForm.get('password')?.value)" type="password" formControlName="password" value="this.getLocalStorageValue('loginPassword')" />
         <span
           *ngIf="this.loginForm.get('password')?.errors?.['required'] &&
                             this.loginForm.get('password')?.touched"
