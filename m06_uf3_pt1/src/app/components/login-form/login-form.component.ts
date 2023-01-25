@@ -15,18 +15,6 @@ import { AppComponent } from '../../app.component';
 })
 export class LoginFormComponent implements OnInit {
 
-  validationResult!: User | null;
-
-  loginForm: FormGroup = new FormGroup({
-    username: new FormControl(this.loginUserName,
-    [
-      Validators.required,
-    ]),
-    password: new FormControl(this.loginPassword,
-    [
-      Validators.required,
-    ]),
-  })
 
   constructor( private route: Router,
                private cookieService: CookieService,
@@ -53,6 +41,19 @@ export class LoginFormComponent implements OnInit {
   get loginPassword() {
     return this.localStorageHandler.getLocalStorageValue('loginPassword');
   }
+
+  validationResult!: User | null;
+
+  loginForm: FormGroup = new FormGroup({
+    username: new FormControl(this.loginUserName,
+    [
+      Validators.required,
+    ]),
+    password: new FormControl(this.loginPassword,
+    [
+      Validators.required,
+    ]),
+  })
 
   setLocalStorageValue(key: string, value: string) {
     this.localStorageHandler.saveIntoLocalStorage(key, value);

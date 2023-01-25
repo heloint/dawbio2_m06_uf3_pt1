@@ -1,6 +1,11 @@
 import { Injectable, OnInit } from '@angular/core';
 import { User } from '../models/user.model';
 
+export type RegistrationResult = {
+  isSuccess: Boolean,
+  errorMessage: string
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -33,7 +38,7 @@ export class ValidateCredentialsService implements OnInit {
     let userArr: Array<User> = [];
 
     for(let i = 0; i <= userNum; i++) {
-      let username:      string = `user${i}`;
+      let username:      string = `user${i}${i}`;
       let password:      string = `password${i}`;
       let role:          string = this.roles[Math.floor(Math.random()*this.roles.length)];
       let email:         string = `user${i}@gmail.com`;
@@ -45,12 +50,12 @@ export class ValidateCredentialsService implements OnInit {
       userArr.push( new User(
                 username,
                 password,
-                role,
                 email,
                 civilState,
                 gender,
                 infoInterests,
-                acceptedCondition
+                acceptedCondition,
+                role
       ));
     }
 
@@ -70,6 +75,59 @@ export class ValidateCredentialsService implements OnInit {
         return validationResult;
   }
 
+
+  private validateRegisterCredens(user: User): RegistrationResult {
+
+    let result: RegistrationResult = {
+      isSuccess: true,
+      errorMessage: ''
+    };
+
+    const username: string = user.username;
+    const email: string = user.email;
+
+    const allUsernames: string[] = this.#userArr.map((usr) => {
+      return usr.username;
+    });
+
+    const allEmails: string[] = this.#userArr.map((usr) => {
+      return usr.email;
+    });
+
+    if (allUsernames.includes(username) &&
+        allEmails.includes(email)) {
+      result.isSuccess = false;
+      result.errorMessage = 'Username already exists and email also already in use!';
+    } else if (allEmails.includes(email)) {
+      result.isSuccess = false;
+      result.errorMessage = 'Email is already in use!';
+    } else if (allUsernames.includes(username)) {
+      result.isSuccess = false;
+      result.errorMessage = 'Username already exists!';
+    }
+
+    return result;
+  }
+
+  public registerUser(user: User): RegistrationResult {
+
+    const beforeFetchLength: number = this.#userArr.length;
+    let isValidRegistration: RegistrationResult = this.validateRegisterCredens(user);
+
+    if (isValidRegistration.isSuccess) {
+      this.#userArr.push(user);
+    }
+
+    const afterFetchLength: number = this.#userArr.length;
+
+    if (isValidRegistration.isSuccess &&
+        !(afterFetchLength > beforeFetchLength)) {
+      isValidRegistration.isSuccess = false;
+      isValidRegistration.errorMessage = 'An error has occured. Try again later.';
+    }
+
+    return isValidRegistration;
+  }
 
   ngOnInit() {
   }

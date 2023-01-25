@@ -2,31 +2,31 @@ export class User {
 
   username:                 string;
   password:                 string;
-  role:                     string;
   email:                    string;
   civilState:               string;
   gender:                   string;
   infoInterests:            String[];
   acceptedCondition!:       Boolean;
+  role:                     string;
 
   constructor(
     username:          string,
     password:          string,
-    role:              string,
     email:             string,
     civilState:        string,
     gender:            string,
     infoInterests:     String[],
-    acceptedCondition: Boolean
+    acceptedCondition: Boolean,
+    role: string
   ){
 
    this.username          = username;
    this.password          = password;
-   this.role              = role;
    this.email             = email;
    this.civilState        = civilState;
    this.gender            = gender;
    this.infoInterests     = infoInterests;
    this.acceptedCondition = acceptedCondition;
+   this.role              = role;
   }
 }

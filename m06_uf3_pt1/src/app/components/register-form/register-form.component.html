@@ -120,6 +120,7 @@
       </div>
 
       <div class="w-100"></div>
+
       <!-- GENDER -->
       <!-- ===================================================== -->
       <div class="col-4 mt-5 text-center">
@@ -154,7 +155,7 @@
               id="{{ type }}"
               name="infoInterest"
               value="{{ type }}"
-              (change)="setLocalStorageInfoType($event)"
+              (change)="setLocalStorageInfoType()"
               [formControlName]="i"
             />
           </div>
@@ -205,4 +206,12 @@
       </div>
     </form>
   </fieldset>
+
+
+  <div class="d-flex justify-content-center" *ngIf="this.registrationResult?.isSuccess">
+    <p class="text-success display-3" ><b>Registered successfully!</b></p>
+  </div>
+  <div *ngIf="!this.registrationResult?.isSuccess">
+    <p class="text-danger display-3" >{{ this.registrationResult?.errorMessage }}</p>
+  </div>
 </div>
