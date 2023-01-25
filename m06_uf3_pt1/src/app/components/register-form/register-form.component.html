@@ -1,4 +1,4 @@
-<div class="container">
+<div *ngIf="!this.isLoggedIn" class="container">
   <fieldset>
     <form
       class="row d-flex justify-content-center"
@@ -146,15 +146,16 @@
       <div class="col-4 mt-5 text-center">
           <p><b><u>Informations of interest</u></b></p>
 
-        <div class="">
-          <div *ngFor="let type of informationTypes">
+        <div  >
+          <div formArrayName="informationTypes" *ngFor="let type of informationTypes; let i = index">
             <label class="mx-2" for="infoInterest">{{ type }}</label>
             <input
               type="checkbox"
               id="{{ type }}"
               name="infoInterest"
               value="{{ type }}"
-              formControlName="informationTypes"
+              (change)="setLocalStorageInfoType($event)"
+              [formControlName]="i"
             />
           </div>
         </div>
@@ -176,6 +177,7 @@
             id="acceptConditions"
             name="acceptConditions"
             value="conditionsAccepted"
+            (change)="setLocalStorageValue('registerAcceptConditions', this.registerForm.get('acceptConditions')?.value)"
             formControlName="acceptConditions"
           />
         <!-- </div> -->

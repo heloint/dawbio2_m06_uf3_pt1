@@ -2,7 +2,7 @@
   <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item" role="presentation">
       <a
-        routerLink="/login"
+        routerLink="/home"
         class="nav-link active"
         data-bs-toggle="tab"
         aria-selected="true"
@@ -21,7 +21,7 @@
         >Login</a
       >
     </li>
-    <li class="nav-item" role="presentation">
+    <li *ngIf="!this.isLoggedIn" class="nav-item" role="presentation">
       <a
         routerLink="/register"
         class="nav-link"

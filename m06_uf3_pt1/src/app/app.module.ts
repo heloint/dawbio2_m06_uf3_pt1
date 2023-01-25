@@ -8,6 +8,7 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 import { RegisterFormComponent } from './components/register-form/register-form.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ValidatePasswordConfirmationDirective } from './directives/validate-password-confirmation.directive';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ValidatePasswordConfirmationDirective } from './directives/validate-pas
     LoginFormComponent,
     RegisterFormComponent,
     PageNotFoundComponent,
-    ValidatePasswordConfirmationDirective
+    ValidatePasswordConfirmationDirective,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

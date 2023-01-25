@@ -15,7 +15,6 @@ export class ValidatePasswordConfirmationDirective implements Validator{
 
 
     if (control.value === this.firstPassword) {
-    console.log('the same');
       validate = true;
     }
 

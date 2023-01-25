@@ -61,9 +61,8 @@ export class LoginFormComponent implements OnInit {
 
 
   ngOnInit() {
-    console.log(this.cookieService.getAll() == null);
     if (this.isLoggedIn) {
-      this.route.navigate(['/register']);
+      this.route.navigate(['/home']);
     }
   }
 
@@ -76,7 +75,7 @@ export class LoginFormComponent implements OnInit {
     if (this.validationResult !== null) {
         this.cookieService.set(this.validationResult.username, this.validationResult.role, {expires: 3});
         this.credenService.isLoggedIn = true;
-        this.route.navigate(['/register']);
+        this.route.navigate(['/home']);
     } else {
         // Pass
     }
