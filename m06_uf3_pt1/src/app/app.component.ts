@@ -1,45 +1,49 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { ValidateCredentialsService, InfoTypes } from './services/validate-credentials.service';
+import {
+  ValidateCredentialsService,
+  InfoTypes,
+} from './services/validate-credentials.service';
 import { LocalStorageHandlerService } from './services/local-storage-handler.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit{
-
+export class AppComponent implements OnInit {
   title = 'm06_uf3_pt1';
 
-  constructor( private credenService: ValidateCredentialsService,
-               private cookieService: CookieService,
-               private localStorageHandler: LocalStorageHandlerService) { }
-
+  constructor(
+    private credenService: ValidateCredentialsService,
+    private cookieService: CookieService,
+    private localStorageHandler: LocalStorageHandlerService
+  ) {}
 
   // Check if user logged in from cookie.
   get isLoggedIn(): Boolean {
-        return this.credenService.isLoggedIn;
+    return this.credenService.isLoggedIn;
   }
 
   // Get username from cookie.
-  get loggedInUsername(): string{
-      return Object.keys(this.cookieService.getAll())[0];
+  get loggedInUsername(): string {
+    return Object.keys(this.cookieService.getAll())[0];
   }
 
   // Get role from cookie.
-  get loggedInRole(): string{
-      return Object.values(this.cookieService.getAll())[0];
+  get loggedInRole(): string {
+    return Object.values(this.cookieService.getAll())[0];
   }
 
   // Delete cookie and logout.
   public doLogOut() {
-        this.cookieService.deleteAll();
-        this.credenService.isLoggedIn = false;
+    this.cookieService.deleteAll();
+    this.credenService.isLoggedIn = false;
   }
 
   ngOnInit() {
-      this.credenService.isLoggedIn = Object.keys(this.cookieService.getAll()).length > 0 ? true : false;
+    this.credenService.isLoggedIn =
+      Object.keys(this.cookieService.getAll()).length > 0 ? true : false;
 
     // Keys that are needed.
     const neededKeys: string[] = [
@@ -50,14 +54,12 @@ export class AppComponent implements OnInit{
       'registerCivilStatus',
       'registerGender',
       'registerInformationTypes',
-      'registerAcceptConditions'
-
+      'registerAcceptConditions',
     ];
 
     // Init localStorage key-value pairs if don't exist.
-    if (!neededKeys.every(key => Object.keys(localStorage).includes(key))) {
+    if (!neededKeys.every((key) => Object.keys(localStorage).includes(key))) {
       neededKeys.forEach((key) => {
-
         if (key == 'registerInformationTypes') {
           let infoTypes: InfoTypes = {};
 
@@ -66,14 +68,10 @@ export class AppComponent implements OnInit{
           });
 
           localStorage['registerInformationTypes'] = JSON.stringify(infoTypes);
-
         } else {
           localStorage[key] = '';
         }
-
       });
     }
   }
-
-
 }

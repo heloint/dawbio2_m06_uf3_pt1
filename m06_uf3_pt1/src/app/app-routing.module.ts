@@ -7,30 +7,30 @@ import { HomeComponent } from './components/home/home.component';
 
 const routes: Routes = [
   {
-    path:'',
+    path: '',
     redirectTo: '/home',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'login',
-    component: LoginFormComponent
+    component: LoginFormComponent,
   },
   {
     path: 'register',
-    component: RegisterFormComponent
+    component: RegisterFormComponent,
   },
   {
     path: 'home',
-    component: HomeComponent
+    component: HomeComponent,
   },
   {
-    path:'**', // Cuando el usuario se equivoca con la ruta.
-    component: PageNotFoundComponent
+    path: '**', // Cuando el usuario se equivoca con la ruta.
+    component: PageNotFoundComponent,
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -1,31 +1,33 @@
 /*
  * Component of the login form.
  * Author: Dániel Májer
-*/
+ */
 
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ValidateCredentialsService, InfoTypes } from '../../services/validate-credentials.service';
+import {
+  ValidateCredentialsService,
+  InfoTypes,
+} from '../../services/validate-credentials.service';
 import { User } from '../../models/user.model';
 import { CookieService } from 'ngx-cookie-service';
-import {LocalStorageHandlerService} from '../../services/local-storage-handler.service';
+import { LocalStorageHandlerService } from '../../services/local-storage-handler.service';
 
 import { AppComponent } from '../../app.component';
 
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.css']
+  styleUrls: ['./login-form.component.css'],
 })
 export class LoginFormComponent implements OnInit {
-
-
-  constructor( private route: Router,
-               private cookieService: CookieService,
-               private credenService: ValidateCredentialsService,
-               private localStorageHandler: LocalStorageHandlerService) {}
-
+  constructor(
+    private route: Router,
+    private cookieService: CookieService,
+    private credenService: ValidateCredentialsService,
+    private localStorageHandler: LocalStorageHandlerService
+  ) {}
 
   validationResult!: User | null;
   validationError!: string | null;
@@ -35,23 +37,23 @@ export class LoginFormComponent implements OnInit {
    * @return Boolean
    * */
   get isLoggedIn(): Boolean {
-        return this.credenService.isLoggedIn;
+    return this.credenService.isLoggedIn;
   }
 
   /*
    * Get username from cookie
    * @return string
    * */
-  get loggedInUsername(): string{
-      return Object.keys(this.cookieService.getAll())[0];
+  get loggedInUsername(): string {
+    return Object.keys(this.cookieService.getAll())[0];
   }
 
   /*
    * Get role from cookie.
    * @return string
    * */
-  get loggedInRole(): string{
-      return Object.values(this.cookieService.getAll())[0];
+  get loggedInRole(): string {
+    return Object.values(this.cookieService.getAll())[0];
   }
 
   /*
@@ -72,22 +74,14 @@ export class LoginFormComponent implements OnInit {
 
   // Initialize login FormGroup + FormControl.
   loginForm: FormGroup = new FormGroup({
-    username: new FormControl(this.loginUserName,
-    [
-      Validators.required,
-    ]),
-    password: new FormControl(this.loginPassword,
-    [
-      Validators.required,
-    ]),
-  })
+    username: new FormControl(this.loginUserName, [Validators.required]),
+    password: new FormControl(this.loginPassword, [Validators.required]),
+  });
 
   // Set key-value pair into the localStorage.
   setLocalStorageValue(key: string, value: string) {
     this.localStorageHandler.saveIntoLocalStorage(key, value);
-
   }
-
 
   ngOnInit() {
     if (this.isLoggedIn) {
@@ -99,18 +93,22 @@ export class LoginFormComponent implements OnInit {
   // After successful login create cookie.
   login() {
     this.validationResult = this.credenService.validateLoginCredens(
-                        this.loginForm.get('username')?.value,
-                        this.loginForm.get('password')?.value
+      this.loginForm.get('username')?.value,
+      this.loginForm.get('password')?.value
     );
 
     if (this.validationResult !== null) {
-        this.cookieService.set(this.validationResult.username, this.validationResult.role, {expires: 3});
-        this.credenService.isLoggedIn = true;
-        this.localStorageHandler.setLocalStorageToDefault();
-        this.route.navigate(['/home']);
+      this.cookieService.set(
+        this.validationResult.username,
+        this.validationResult.role,
+        { expires: 3 }
+      );
+      this.credenService.isLoggedIn = true;
+      this.localStorageHandler.setLocalStorageToDefault();
+      this.route.navigate(['/home']);
     } else {
       this.validationError = 'Invalid username or password.';
-        // Pass
+      // Pass
     }
   }
 }

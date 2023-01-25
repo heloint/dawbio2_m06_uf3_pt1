@@ -7,11 +7,10 @@ import { Injectable } from '@angular/core';
 import { InfoTypes } from './validate-credentials.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LocalStorageHandlerService {
-
-  constructor() { }
+  constructor() {}
 
   /* Gets value from localStorage by key.
    * @param key string
@@ -19,7 +18,7 @@ export class LocalStorageHandlerService {
    * */
   getLocalStorageValue(key: string): string | null {
     let str: string | null = null;
-    if (localStorage[key] !== undefined){
+    if (localStorage[key] !== undefined) {
       str = localStorage[key];
     }
     return str;
@@ -29,7 +28,7 @@ export class LocalStorageHandlerService {
    * @param key string
    * @param value string
    * */
-  saveIntoLocalStorage(key: string, value: string){
+  saveIntoLocalStorage(key: string, value: string) {
     localStorage[key] = value;
   }
 
@@ -48,24 +47,23 @@ export class LocalStorageHandlerService {
       'registerCivilStatus',
       'registerGender',
       'registerInformationTypes',
-      'registerAcceptConditions'
-
+      'registerAcceptConditions',
     ];
 
-      neededKeys.forEach((key) => {
-        if (key == 'registerInformationTypes') {
-          let infoTypes: InfoTypes = JSON.parse(localStorage['registerInformationTypes']);
+    neededKeys.forEach((key) => {
+      if (key == 'registerInformationTypes') {
+        let infoTypes: InfoTypes = JSON.parse(
+          localStorage['registerInformationTypes']
+        );
 
-          Array.from(Object.keys(infoTypes)).forEach((type) => {
-            infoTypes[type] = false;
-          });
+        Array.from(Object.keys(infoTypes)).forEach((type) => {
+          infoTypes[type] = false;
+        });
 
-          localStorage['registerInformationTypes'] = JSON.stringify(infoTypes);
-
-        } else {
-          localStorage[key] = '';
-        }
-
-      });
+        localStorage['registerInformationTypes'] = JSON.stringify(infoTypes);
+      } else {
+        localStorage[key] = '';
+      }
+    });
   }
 }

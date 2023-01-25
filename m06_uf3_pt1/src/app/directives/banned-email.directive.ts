@@ -1,18 +1,24 @@
 /*
  * Directive to validate banned emails.
  * Author: Dániel Májer
-*/
+ */
 
 import { Directive } from '@angular/core';
-import { NG_VALIDATORS, AbstractControl, ValidationErrors, Validator } from '@angular/forms';
+import {
+  NG_VALIDATORS,
+  AbstractControl,
+  ValidationErrors,
+  Validator,
+} from '@angular/forms';
 
 @Directive({
   selector: '[appBannedEmail]',
-  providers: [{provide: NG_VALIDATORS, useExisting: BannedEmailDirective, multi: true}]
+  providers: [
+    { provide: NG_VALIDATORS, useExisting: BannedEmailDirective, multi: true },
+  ],
 })
 export class BannedEmailDirective {
-
-  constructor() { }
+  constructor() {}
 
   #bannedUserNames: string[] = [
     'admin',
@@ -20,14 +26,14 @@ export class BannedEmailDirective {
     'password',
     'proven',
     'provenUsr',
-    'buyer'
+    'buyer',
   ];
 
   /* Validates if the two password fields are match.
    * @param control AbstractControl
    * @return ValidationErrors | null
    * */
-  validate (control: AbstractControl): ValidationErrors | null {
+  validate(control: AbstractControl): ValidationErrors | null {
     let validate: boolean = false;
 
     const emailFirstPath: string = control.value.split('@')[0];
@@ -36,9 +42,6 @@ export class BannedEmailDirective {
       validate = true;
     }
 
-    return validate ? null : {'bannedEmail': true};
+    return validate ? null : { bannedEmail: true };
   }
 }
-
-
-
