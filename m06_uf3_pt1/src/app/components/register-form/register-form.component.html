@@ -7,10 +7,10 @@
     >
       <!-- USERNAME -->
       <!-- ===================================================== -->
-      <div class="col-5 mt-5 text-center">
+      <div class="col-4 mt-5">
         <label for="register-username"><b>* Username</b></label>
         <div class="w-100"></div>
-        <input (keydown)="setLocalStorageValue('registerUserName', this.registerForm.get('username')?.value)" id="register-username" type="text" formControlName="username" />
+        <input (change)="setLocalStorageValue('registerUserName', this.registerForm.get('username')?.value)" id="register-username" type="text" formControlName="username" />
 
         <span
           *ngIf="this.registerForm.get('username')?.errors?.['required'] &&
@@ -18,33 +18,46 @@
         >
           Username field is empty.
         </span>
+
+        <span
+          *ngIf="this.registerForm.get('username')?.errors?.['minlength'] &&
+                           this.registerForm.get('username')?.touched"
+        >
+          Minimum 6 character length is required.
+        </span>
       </div>
 
       <div class="w-100"></div>
       <!-- Password -->
       <!-- ===================================================== -->
-      <div class="col-5 mt-3 text-center">
+      <div class="col-4 mt-3">
         <label for="register-password"><b>* Password</b></label>
         <div class="w-100"></div>
-        <input  (keydown)="setLocalStorageValue('registerPassword', this.registerForm.get('password')?.value)" id="register-password" type="text" formControlName="password" />
+        <input  (change)="setLocalStorageValue('registerPassword', this.registerForm.get('password')?.value)" id="register-password" type="text" formControlName="password" />
         <span
           *ngIf="this.registerForm.get('password')?.errors?.['required'] &&
                           this.registerForm.get('password')?.touched"
         >
           Password cannot be empty.
         </span>
+        <span
+          *ngIf="this.registerForm.get('password')?.errors?.['minlength'] &&
+                           this.registerForm.get('password')?.touched"
+        >
+          Minimum 8 character length is required.
+        </span>
       </div>
 
       <div class="w-100"></div>
       <!-- Password confirmation-->
       <!-- ===================================================== -->
-      <div class="col-5 mt-3 text-center">
+      <div class="col-4 mt-3">
         <label for="register-password-confirmation"
           ><b>* Repeat password</b></label
         >
         <div class="w-100"></div>
         <input
-          (keydown)="setLocalStorageValue('registerRepeatedPassword', this.registerForm.get('passwordConfirmation')?.value)"
+          (change)="setLocalStorageValue('registerRepeatedPassword', this.registerForm.get('passwordConfirmation')?.value)"
           id="register-password-confirmation"
           type="text"
           formControlName="passwordConfirmation"
@@ -56,7 +69,7 @@
           *ngIf="this.registerForm.get('passwordConfirmation')?.errors?.['required'] &&
                           this.registerForm.get('passwordConfirmation')?.touched"
         >
-          Password cannot be empty.
+          Password repetation cannot be empty.
         </span>
         <span
           *ngIf="this.registerForm.get('passwordConfirmation')?.errors?.['unequivalentPassword'] &&
@@ -69,10 +82,10 @@
       <div class="w-100"></div>
       <!-- EMAIL -->
       <!-- ===================================================== -->
-      <div class="col-5 mt-3 text-center">
-        <label for="register-email"><b>* Email</b></label>
+      <div class="col-4 mt-3">
+        <label class="" for="register-email"><b>* Email</b></label>
         <div class="w-100"></div>
-        <input (keydown)="setLocalStorageValue('registerEmail', this.registerForm.get('email')?.value)"
+        <input (change)="setLocalStorageValue('registerEmail', this.registerForm.get('email')?.value)"
                id="register-email" type="text" formControlName="email" />
         <span
           *ngIf="this.registerForm.get('email')?.errors?.['required'] &&
@@ -123,11 +136,11 @@
 
       <!-- GENDER -->
       <!-- ===================================================== -->
-      <div class="col-4 mt-5 text-center">
-          <label for="register-gender"><b>* <u>Gender</u></b></label>
+      <div class="col-4 mt-3">
+          <p ><b>* <u>Gender</u></b></p>
         <div class="d-flex justify-content-around mt-2">
-          <span *ngFor="let gender of genders">
-            <label class="mx-2" for="{{ gender }}">{{ gender }}</label>
+          <span class="" *ngFor="let gender of genders">
+            <label class="" for="{{ gender }}">{{ gender }}</label>
             <input
               type="radio"
               id="{{ gender }}"
@@ -144,12 +157,12 @@
 
       <!-- INFORMATION ABOUT -->
       <!-- ===================================================== -->
-      <div class="col-4 mt-5 text-center">
+      <div class="col-4 mt-3">
           <p><b><u>Informations of interest</u></b></p>
 
         <div  >
           <div formArrayName="informationTypes" *ngFor="let type of informationTypes; let i = index">
-            <label class="mx-2" for="infoInterest">{{ type }}</label>
+            <label class="" for="infoInterest">{{ type }}</label>
             <input
               type="checkbox"
               id="{{ type }}"
@@ -166,7 +179,7 @@
       <div class="w-100"></div>
       <!-- Accept conditions -->
       <!-- ===================================================== -->
-      <div class="col-5 mt-5 text-center">
+      <div class="col-5 mt-5">
 
         <label class="mx-2 mb-2" for="acceptConditions">
             <b>* Accept conditions</b>

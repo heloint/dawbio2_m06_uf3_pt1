@@ -1,3 +1,9 @@
+/*
+ * Component of the registration form.
+ * Author: Dániel Májer
+*/
+
+
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -22,25 +28,29 @@ export class RegisterFormComponent implements OnInit{
                private cookieService: CookieService,
                private localStorageHandler: LocalStorageHandlerService) { }
 
+  // Initialize variables.
   genders!:          string[];
   civilStatuses!:    string[];
   informationTypes!: string[];
   registrationResult!: RegistrationResult | null;
 
+  // Get register form's gender from localStorage
   get registerGender() {
     return this.localStorageHandler.getLocalStorageValue('registerGender');
   }
 
+  // Get register form's information types from localStorage
   get registerInformationTypes() {
     return this.localStorageHandler.getLocalStorageValue('registerInformationTypes');
   }
 
+  // Get login flag from the service.
   get isLoggedIn(): Boolean {
         return this.credenService.isLoggedIn;
   }
 
+  // Declare FormGroup + FormArray + FormControl
   registerForm: FormGroup = new FormGroup({
-
     username: new FormControl(
       localStorage['registerUserName'],
       [
@@ -54,8 +64,8 @@ export class RegisterFormComponent implements OnInit{
       localStorage['registerPassword'],
       [
         Validators.required,
-        Validators.minLength(6),
-        Validators.pattern('^[a-zA-Z0-9]+$')
+        Validators.minLength(8),
+        Validators.pattern('^[a-zA-Z0-9+$.!]+$')
       ]
     ),
 
@@ -63,8 +73,6 @@ export class RegisterFormComponent implements OnInit{
       localStorage['registerRepeatedPassword'],
     [
       Validators.required,
-      Validators.minLength(6),
-      Validators.pattern('^[a-zA-Z0-9]+$'),
     ]),
 
     email: new FormControl(
@@ -103,6 +111,7 @@ export class RegisterFormComponent implements OnInit{
   })
 
 
+  // Dinamically create FormControls for each checkbox value for the FormArray.
   fetchCheckboxFormArray(values: Boolean[]): FormControl[] {
     let formControlArr: FormControl[] = [];
 
@@ -113,10 +122,12 @@ export class RegisterFormComponent implements OnInit{
     return formControlArr;
   }
 
+  // Set key-value pair in the localStorage.
   setLocalStorageValue(key: string, value: string) {
     this.localStorageHandler.saveIntoLocalStorage(key, value);
   }
 
+  // Set key-value[array] pair in the localStorage for the selected information types from the form.
   setLocalStorageInfoType() {
 
     let infoTypes: InfoTypes = {};
@@ -129,6 +140,7 @@ export class RegisterFormComponent implements OnInit{
     localStorage['registerInformationTypes'] = JSON.stringify(infoTypes);
   }
 
+  // On the initialization of the class, after the constructor.
   ngOnInit() {
     // For multi selection form elements.
     this.genders          = this.credenService.genders;
@@ -168,6 +180,7 @@ export class RegisterFormComponent implements OnInit{
     }
   }
 
+  // Try to validate the registration data and register the user.
   register() {
 
     const infoInterests: string[] = Array.from(Object.values(JSON.parse(localStorage['registerInformationTypes'])));
@@ -184,8 +197,6 @@ export class RegisterFormComponent implements OnInit{
         'buyer'
       )
     );
-
-    console.log(this.registrationResult);
   }
 
 }

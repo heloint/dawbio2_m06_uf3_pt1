@@ -7,12 +7,22 @@ export class LocalStorageHandlerService {
 
   constructor() { }
 
-  getLocalStorageValue(key: string) {
+  /* Gets value from localStorage by key.
+   * @param key string
+   * @return string
+   * */
+  getLocalStorageValue(key: string): string | null {
+    let str: string | null = null;
     if (localStorage[key] !== undefined){
-      return localStorage[key];
+      str = localStorage[key];
     }
+    return str;
   }
 
+  /* Saves key-value pair into localStorage.
+   * @param key string
+   * @param value string
+   * */
   saveIntoLocalStorage(key: string, value: string){
     localStorage[key] = value;
   }

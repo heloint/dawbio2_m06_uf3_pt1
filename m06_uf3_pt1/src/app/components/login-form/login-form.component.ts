@@ -1,3 +1,8 @@
+/*
+ * Component of the login form.
+ * Author: Dániel Májer
+*/
+
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { Component, OnInit} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -22,28 +27,49 @@ export class LoginFormComponent implements OnInit {
                private localStorageHandler: LocalStorageHandlerService) {}
 
 
+  validationResult!: User | null;
+
+  /*
+   * Check if the user logged in.
+   * @return Boolean
+   * */
   get isLoggedIn(): Boolean {
         return this.credenService.isLoggedIn;
   }
 
+  /*
+   * Get username from cookie
+   * @return string
+   * */
   get loggedInUsername(): string{
       return Object.keys(this.cookieService.getAll())[0];
   }
 
+  /*
+   * Get role from cookie.
+   * @return string
+   * */
   get loggedInRole(): string{
       return Object.values(this.cookieService.getAll())[0];
   }
 
+  /*
+   * Get role from localStorage.
+   * @return string
+   * */
   get loginUserName() {
     return this.localStorageHandler.getLocalStorageValue('loginUserName');
   }
 
+  /*
+   * Get password from localStorage.
+   * @return string
+   * */
   get loginPassword() {
     return this.localStorageHandler.getLocalStorageValue('loginPassword');
   }
 
-  validationResult!: User | null;
-
+  // Initialize login FormGroup + FormControl.
   loginForm: FormGroup = new FormGroup({
     username: new FormControl(this.loginUserName,
     [
@@ -55,11 +81,11 @@ export class LoginFormComponent implements OnInit {
     ]),
   })
 
+  // Set key-value pair into the localStorage.
   setLocalStorageValue(key: string, value: string) {
     this.localStorageHandler.saveIntoLocalStorage(key, value);
 
   }
-
 
   ngOnInit() {
     if (this.isLoggedIn) {
@@ -67,6 +93,8 @@ export class LoginFormComponent implements OnInit {
     }
   }
 
+  // Try to validate credens and login the user.
+  // After successful login create cookie.
   submit() {
     this.validationResult = this.credenService.validateLoginCredens(
                         this.loginForm.get('username')?.value,

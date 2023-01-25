@@ -15,18 +15,22 @@ export class AppComponent implements OnInit{
                private localStorageHandler: LocalStorageHandlerService) { }
 
 
+  // Check if user logged in from cookie.
   get isLoggedIn(): Boolean {
         return this.credenService.isLoggedIn;
   }
 
+  // Get username from cookie.
   get loggedInUsername(): string{
       return Object.keys(this.cookieService.getAll())[0];
   }
 
+  // Get role from cookie.
   get loggedInRole(): string{
       return Object.values(this.cookieService.getAll())[0];
   }
 
+  // Delete cookie and logout.
   public doLogOut() {
         this.cookieService.deleteAll();
         this.credenService.isLoggedIn = false;

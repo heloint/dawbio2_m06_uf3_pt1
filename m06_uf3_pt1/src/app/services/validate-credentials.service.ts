@@ -11,18 +11,22 @@ export type RegistrationResult = {
 })
 export class ValidateCredentialsService implements OnInit {
 
-  // #userArr!: Array<User>;
+  constructor() { }
 
+  // Initialize and declare variables.
   roles:            string[] = ['buyer', 'administrator'];
   genders:          string[] = ['Male', 'Female', 'Other'];
   civilStatuses:    string[] = [ "Married", "Single", "Divorced" ];
   informationTypes: string[] = [ "Videogames", "Accessories", "Market news" ];
-
-  #userArr: Array<User> = this.generateUsers(50);
   isLoggedIn: Boolean = false;
 
-  constructor() { }
+  // Generate 50 users.
+  #userArr: Array<User> = this.generateUsers(50);
 
+
+  /* Get random element from the "informationTypes".
+   * @return Array<String>
+   */
   private getRandomInterests(): Array<String> {
     let numberOfInterest: number = Math.floor(Math.random() * this.informationTypes.length);
     let collector: Array<String> = [];
@@ -33,6 +37,10 @@ export class ValidateCredentialsService implements OnInit {
     return collector;
   }
 
+  /* Generate N users objects.
+   * @param number
+   * @return Array<User>
+   */
   public generateUsers(userNum: number): Array<User>
   {
     let userArr: Array<User> = [];
@@ -62,6 +70,11 @@ export class ValidateCredentialsService implements OnInit {
     return userArr;
   }
 
+  /* Validates username and password against the "database".
+   * @param username string
+   * @param password string
+   * @return User | null
+   * */
   public validateLoginCredens(username: string, password: string): User | null {
         let validationResult = null;
 
@@ -75,7 +88,10 @@ export class ValidateCredentialsService implements OnInit {
         return validationResult;
   }
 
-
+  /* Validates user object against the "database".
+   * @param user User
+   * @return User | null
+   * */
   private validateRegisterCredens(user: User): RegistrationResult {
 
     let result: RegistrationResult = {
@@ -109,6 +125,11 @@ export class ValidateCredentialsService implements OnInit {
     return result;
   }
 
+  /* Validates user object against the "database" and update the array of User
+   * objects by adding to it.
+   * @param user User
+   * @return RegistrationResult error messages + boolean
+   * */
   public registerUser(user: User): RegistrationResult {
 
     const beforeFetchLength: number = this.#userArr.length;
