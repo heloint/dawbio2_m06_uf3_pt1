@@ -6,7 +6,7 @@
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { Component, OnInit} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ValidateCredentialsService } from '../../services/validate-credentials.service';
+import { ValidateCredentialsService, InfoTypes } from '../../services/validate-credentials.service';
 import { User } from '../../models/user.model';
 import { CookieService } from 'ngx-cookie-service';
 import {LocalStorageHandlerService} from '../../services/local-storage-handler.service';
@@ -28,6 +28,7 @@ export class LoginFormComponent implements OnInit {
 
 
   validationResult!: User | null;
+  validationError!: string | null;
 
   /*
    * Check if the user logged in.
@@ -87,6 +88,7 @@ export class LoginFormComponent implements OnInit {
 
   }
 
+
   ngOnInit() {
     if (this.isLoggedIn) {
       this.route.navigate(['/home']);
@@ -95,7 +97,7 @@ export class LoginFormComponent implements OnInit {
 
   // Try to validate credens and login the user.
   // After successful login create cookie.
-  submit() {
+  login() {
     this.validationResult = this.credenService.validateLoginCredens(
                         this.loginForm.get('username')?.value,
                         this.loginForm.get('password')?.value
@@ -104,8 +106,10 @@ export class LoginFormComponent implements OnInit {
     if (this.validationResult !== null) {
         this.cookieService.set(this.validationResult.username, this.validationResult.role, {expires: 3});
         this.credenService.isLoggedIn = true;
+        this.localStorageHandler.setLocalStorageToDefault();
         this.route.navigate(['/home']);
     } else {
+      this.validationError = 'Invalid username or password.';
         // Pass
     }
   }

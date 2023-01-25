@@ -9,6 +9,8 @@ import { RegisterFormComponent } from './components/register-form/register-form.
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { ValidatePasswordConfirmationDirective } from './directives/validate-password-confirmation.directive';
 import { HomeComponent } from './components/home/home.component';
+import { BannedUsernameDirective } from './directives/banned-username.directive';
+import { BannedEmailDirective } from './directives/banned-email.directive';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { HomeComponent } from './components/home/home.component';
     RegisterFormComponent,
     PageNotFoundComponent,
     ValidatePasswordConfirmationDirective,
-    HomeComponent
+    HomeComponent,
+    BannedUsernameDirective,
+    BannedEmailDirective
   ],
   imports: [
     BrowserModule,

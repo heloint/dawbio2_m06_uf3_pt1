@@ -1,3 +1,8 @@
+/*
+ * Component of the home view.
+ * Author: Dániel Májer
+*/
+
 import { Component } from '@angular/core';
 
 @Component({

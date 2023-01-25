@@ -3,14 +3,17 @@
     <form
       class="row d-flex justify-content-center"
       [formGroup]="loginForm"
-      (ngSubmit)="submit()"
+      (ngSubmit)="login()"
     >
       <!-- USERNAME -->
       <!-- ===================================================== -->
       <div class="col-5 mt-5 text-center">
         <label for="login-username">Username</label>
         <div class="w-100"></div>
-        <input (keydown)="setLocalStorageValue('loginUserName', this.loginForm.get('username')?.value)" id="login-username" type="text" formControlName="username" />
+        <input (change)="setLocalStorageValue('loginUserName', this.loginForm.get('username')?.value)"
+               id="login-username"
+               type="text"
+               formControlName="username" />
 
         <span
           *ngIf="this.loginForm.get('username')?.errors?.['required'] &&
@@ -27,7 +30,10 @@
       <div class="col-5 mt-3 text-center">
         <label for="login-password">Password</label>
         <div class="w-100"></div>
-        <input (keydown)="setLocalStorageValue('loginPassword', this.loginForm.get('password')?.value)" type="password" formControlName="password" value="this.getLocalStorageValue('loginPassword')" />
+        <input (change)="setLocalStorageValue('loginPassword', this.loginForm.get('password')?.value)"
+               type="password"
+               formControlName="password"
+               value="this.getLocalStorageValue('loginPassword')" />
         <span
           *ngIf="this.loginForm.get('password')?.errors?.['required'] &&
                             this.loginForm.get('password')?.touched"
@@ -47,7 +53,6 @@
   </fieldset>
 </div>
 
-<div *ngIf="this.isLoggedIn">
-  <p>User: {{ this.loggedInRole }}</p>
-  <p>{{ this.loggedInUsername }}</p>
+<div class="text-center" *ngIf="this.validationError">
+  <p class="text-danger" style="font-size: 2rem;">{{ this.validationError }}</p>
 </div>

@@ -3,19 +3,14 @@
  * Author: Dániel Májer
 */
 
-
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { User } from '../../models/user.model';
 
 import { CookieService } from 'ngx-cookie-service';
-import { ValidateCredentialsService, RegistrationResult } from '../../services/validate-credentials.service';
+import { ValidateCredentialsService, InfoTypes, RegistrationResult } from '../../services/validate-credentials.service';
 import { LocalStorageHandlerService } from '../../services/local-storage-handler.service';
-
-interface InfoTypes {
-  [infoType: string]: Boolean
-}
 
 @Component({
   selector: 'app-register-form',
@@ -110,8 +105,10 @@ export class RegisterFormComponent implements OnInit{
     ),
   })
 
-
-  // Dinamically create FormControls for each checkbox value for the FormArray.
+  /* Dinamically create FormControls for each checkbox value for the FormArray.
+   * @param values Array<Boolean>
+   * @return FormControl
+   */
   fetchCheckboxFormArray(values: Boolean[]): FormControl[] {
     let formControlArr: FormControl[] = [];
 
@@ -122,7 +119,10 @@ export class RegisterFormComponent implements OnInit{
     return formControlArr;
   }
 
-  // Set key-value pair in the localStorage.
+  /* Set key-value pair in the localStorage.
+    * @param key string
+    * @param value string
+    */
   setLocalStorageValue(key: string, value: string) {
     this.localStorageHandler.saveIntoLocalStorage(key, value);
   }
@@ -163,7 +163,20 @@ export class RegisterFormComponent implements OnInit{
     // Init localStorage key-value pairs if don't exist.
     if (!neededKeys.every(key => Object.keys(localStorage).includes(key))) {
       neededKeys.forEach((key) => {
-        localStorage[key] = '';
+
+        if (key == 'registerInformationTypes') {
+          let infoTypes: InfoTypes = {};
+
+          this.informationTypes.forEach((type) => {
+            infoTypes[type] = false;
+          });
+
+          localStorage['registerInformationTypes'] = JSON.stringify(infoTypes);
+
+        } else {
+          localStorage[key] = '';
+        }
+
       });
     }
 
@@ -197,6 +210,10 @@ export class RegisterFormComponent implements OnInit{
         'buyer'
       )
     );
+
+    if (this.registrationResult.isSuccess) {
+      this.localStorageHandler.setLocalStorageToDefault();
+    }
   }
 
 }

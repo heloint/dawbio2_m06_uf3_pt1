@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
-import { ValidateCredentialsService } from './services/validate-credentials.service';
+import { ValidateCredentialsService, InfoTypes } from './services/validate-credentials.service';
 import { LocalStorageHandlerService } from './services/local-storage-handler.service';
 
 @Component({
@@ -9,7 +9,9 @@ import { LocalStorageHandlerService } from './services/local-storage-handler.ser
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
+
   title = 'm06_uf3_pt1';
+
   constructor( private credenService: ValidateCredentialsService,
                private cookieService: CookieService,
                private localStorageHandler: LocalStorageHandlerService) { }
@@ -38,6 +40,39 @@ export class AppComponent implements OnInit{
 
   ngOnInit() {
       this.credenService.isLoggedIn = Object.keys(this.cookieService.getAll()).length > 0 ? true : false;
+
+    // Keys that are needed.
+    const neededKeys: string[] = [
+      'registerUserName',
+      'registerPassword',
+      'registerRepeatedPassword',
+      'registerEmail',
+      'registerCivilStatus',
+      'registerGender',
+      'registerInformationTypes',
+      'registerAcceptConditions'
+
+    ];
+
+    // Init localStorage key-value pairs if don't exist.
+    if (!neededKeys.every(key => Object.keys(localStorage).includes(key))) {
+      neededKeys.forEach((key) => {
+
+        if (key == 'registerInformationTypes') {
+          let infoTypes: InfoTypes = {};
+
+          this.credenService.informationTypes.forEach((type) => {
+            infoTypes[type] = false;
+          });
+
+          localStorage['registerInformationTypes'] = JSON.stringify(infoTypes);
+
+        } else {
+          localStorage[key] = '';
+        }
+
+      });
+    }
   }
 
 

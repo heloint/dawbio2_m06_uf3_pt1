@@ -1,9 +1,18 @@
+/*
+ * Service in charge of serving and validating user credentials related data.
+ * @Author Dániel Májer
+ * */
+
 import { Injectable, OnInit } from '@angular/core';
 import { User } from '../models/user.model';
 
 export type RegistrationResult = {
   isSuccess: Boolean,
   errorMessage: string
+}
+
+export interface InfoTypes {
+  [infoType: string]: Boolean
 }
 
 @Injectable({

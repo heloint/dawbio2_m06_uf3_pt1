@@ -1,4 +1,10 @@
+/*
+ * Service in charge of handling localStorage related data.
+ * @Author Dániel Májer
+ * */
+
 import { Injectable } from '@angular/core';
+import { InfoTypes } from './validate-credentials.service';
 
 @Injectable({
   providedIn: 'root'
@@ -27,4 +33,39 @@ export class LocalStorageHandlerService {
     localStorage[key] = value;
   }
 
+  /* Sets localStorage's login-register corresponding key-value pairs to the
+   * initial default.
+   * */
+  setLocalStorageToDefault() {
+    // Keys that are needed.
+    const neededKeys: string[] = [
+      'loginUserName',
+      'loginPassword',
+      'registerUserName',
+      'registerPassword',
+      'registerRepeatedPassword',
+      'registerEmail',
+      'registerCivilStatus',
+      'registerGender',
+      'registerInformationTypes',
+      'registerAcceptConditions'
+
+    ];
+
+      neededKeys.forEach((key) => {
+        if (key == 'registerInformationTypes') {
+          let infoTypes: InfoTypes = JSON.parse(localStorage['registerInformationTypes']);
+
+          Array.from(Object.keys(infoTypes)).forEach((type) => {
+            infoTypes[type] = false;
+          });
+
+          localStorage['registerInformationTypes'] = JSON.stringify(infoTypes);
+
+        } else {
+          localStorage[key] = '';
+        }
+
+      });
+  }
 }

@@ -10,21 +10,33 @@
       <div class="col-4 mt-5">
         <label for="register-username"><b>* Username</b></label>
         <div class="w-100"></div>
-        <input (change)="setLocalStorageValue('registerUserName', this.registerForm.get('username')?.value)" id="register-username" type="text" formControlName="username" />
+        <input (change)="setLocalStorageValue('registerUserName', this.registerForm.get('username')?.value)"
+               id="register-username"
+               type="text"
+               formControlName="username"
+               appBannedUsername
+               />
 
-        <span
+        <div class="w-100"></div>
+        <div
           *ngIf="this.registerForm.get('username')?.errors?.['required'] &&
                            this.registerForm.get('username')?.touched"
         >
           Username field is empty.
-        </span>
+        </div>
 
-        <span
+        <div
           *ngIf="this.registerForm.get('username')?.errors?.['minlength'] &&
                            this.registerForm.get('username')?.touched"
         >
           Minimum 6 character length is required.
-        </span>
+        </div>
+        <div
+          *ngIf="this.registerForm.get('username')?.errors?.['bannedUsername'] &&
+                          this.registerForm.get('username')?.touched"
+        >
+          The "{{ this.registerForm.get('username')?.value }}" username cannot be used to register.
+        </div>
       </div>
 
       <div class="w-100"></div>
@@ -34,18 +46,19 @@
         <label for="register-password"><b>* Password</b></label>
         <div class="w-100"></div>
         <input  (change)="setLocalStorageValue('registerPassword', this.registerForm.get('password')?.value)" id="register-password" type="text" formControlName="password" />
-        <span
+        <div class="w-100"></div>
+        <div
           *ngIf="this.registerForm.get('password')?.errors?.['required'] &&
                           this.registerForm.get('password')?.touched"
         >
           Password cannot be empty.
-        </span>
-        <span
+        </div>
+        <div
           *ngIf="this.registerForm.get('password')?.errors?.['minlength'] &&
                            this.registerForm.get('password')?.touched"
         >
           Minimum 8 character length is required.
-        </span>
+        </div>
       </div>
 
       <div class="w-100"></div>
@@ -65,18 +78,19 @@
           [firstPassword]="this.registerForm.get('password')?.value"
         />
 
-        <span
+        <div class="w-100"></div>
+        <div
           *ngIf="this.registerForm.get('passwordConfirmation')?.errors?.['required'] &&
                           this.registerForm.get('passwordConfirmation')?.touched"
         >
           Password repetation cannot be empty.
-        </span>
-        <span
+        </div>
+        <div
           *ngIf="this.registerForm.get('passwordConfirmation')?.errors?.['unequivalentPassword'] &&
                           this.registerForm.get('passwordConfirmation')?.touched"
         >
           Two passwords must be the same.
-        </span>
+        </div>
       </div>
 
       <div class="w-100"></div>
@@ -86,25 +100,37 @@
         <label class="" for="register-email"><b>* Email</b></label>
         <div class="w-100"></div>
         <input (change)="setLocalStorageValue('registerEmail', this.registerForm.get('email')?.value)"
-               id="register-email" type="text" formControlName="email" />
-        <span
+               id="register-email"
+               type="text"
+               formControlName="email"
+               appBannedEmail
+        />
+        <div class="w-100"></div>
+
+        <div
           *ngIf="this.registerForm.get('email')?.errors?.['required'] &&
                           this.registerForm.get('email')?.touched"
         >
           Email cannot be empty.
-        </span>
-        <span
+        </div>
+        <div
           *ngIf="this.registerForm.get('email')?.errors?.['pattern'] &&
                     this.registerForm.get('email')?.touched"
         >
           Email hasn't got correct format.
-        </span>
+        </div>
+        <div
+          *ngIf="this.registerForm.get('email')?.errors?.['bannedEmail'] &&
+                          this.registerForm.get('email')?.touched"
+        >
+          The "{{ this.registerForm.get('email')?.value }}" email address cannot be used to register.
+        </div>
       </div>
 
       <div class="w-100"></div>
       <!-- CIVIL STATUS -->
       <!-- ===================================================== -->
-      <div class="col-5 mt-3 text-center">
+      <div class="col-4 mt-3">
         <label for="civilStatus"><b>* Civil Status</b></label>
 
         <div class="mt-2">
@@ -138,9 +164,9 @@
       <!-- ===================================================== -->
       <div class="col-4 mt-3">
           <p ><b>* <u>Gender</u></b></p>
-        <div class="d-flex justify-content-around mt-2">
-          <span class="" *ngFor="let gender of genders">
-            <label class="" for="{{ gender }}">{{ gender }}</label>
+        <div class="mt-2">
+          <div class="d-flex justify-content-between" style="width: 5rem;" *ngFor="let gender of genders">
+            <label for="{{ gender }}">{{ gender }}</label>
             <input
               type="radio"
               id="{{ gender }}"
@@ -149,7 +175,7 @@
               formControlName="gender"
               (change)="setLocalStorageValue('registerGender', this.registerForm.get('gender')?.value)"
             />
-          </span>
+          </div>
         </div>
       </div>
 
@@ -160,8 +186,8 @@
       <div class="col-4 mt-3">
           <p><b><u>Informations of interest</u></b></p>
 
-        <div  >
-          <div formArrayName="informationTypes" *ngFor="let type of informationTypes; let i = index">
+        <div>
+          <div class="d-flex justify-content-between" style="width: 10rem;" formArrayName="informationTypes" *ngFor="let type of informationTypes; let i = index">
             <label class="" for="infoInterest">{{ type }}</label>
             <input
               type="checkbox"
@@ -179,7 +205,7 @@
       <div class="w-100"></div>
       <!-- Accept conditions -->
       <!-- ===================================================== -->
-      <div class="col-5 mt-5">
+      <div class="col-4 mt-5">
 
         <label class="mx-2 mb-2" for="acceptConditions">
             <b>* Accept conditions</b>
@@ -196,19 +222,20 @@
           />
         <!-- </div> -->
 
-        <span
+      <div class="w-100"></div>
+        <div
           *ngIf="this.registerForm.get('acceptConditions')?.errors?.['required'] &&
                           this.registerForm.get('acceptConditions')?.touched"
         >
           Must accept the conditions.
-        </span>
+        </div>
       </div>
 
       <div class="w-100"></div>
 
       <!-- Register button -->
       <!-- ===================================================== -->
-      <div class="mt-4 d-flex justify-content-center">
+      <div class="col-3">
         <button
           class="btn btn-m"
           type="submit"

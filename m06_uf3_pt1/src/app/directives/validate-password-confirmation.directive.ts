@@ -1,5 +1,9 @@
-import { Directive, Input } from '@angular/core';
+/*
+ * Directive to validate if two passwords match.
+ * @Author Dániel Májer
+ * */
 
+import { Directive, Input } from '@angular/core';
 import { NG_VALIDATORS, AbstractControl, ValidationErrors, Validator } from '@angular/forms';
 
 @Directive({
