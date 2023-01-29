@@ -1,5 +1,6 @@
 /*
  * "User" class to represent a user in the application's database.
+ * @author Dániel Májer
  * */
 
 export class User {
