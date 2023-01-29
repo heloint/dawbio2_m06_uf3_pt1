@@ -14,8 +14,8 @@ export class GetEventsService {
   constructor() {}
 
   // Initialize and declare variables.
-  eventTypes: string[] = ['concert', 'cinema', 'museum', 'fair'];
-  locations: string[] = [
+  #eventTypes: string[] = ['concert', 'cinema', 'museum', 'fair'];
+  #locations: string[] = [
     'Badalona',
     'Barcelona',
     'Cornellà',
@@ -27,7 +27,7 @@ export class GetEventsService {
   ];
 
   // Generate 100 event objects.
-  #eventArr: Array<Event> = this.generateEvents(100);
+  eventArr: Array<Event> = this.generateEvents(100);
 
   /* Get random float between range formated as a string with currency sign as last char.
    * @input from number
@@ -60,16 +60,17 @@ export class GetEventsService {
     for (let i = 0; i <= userNum; i++) {
       let name: string = `event${i}${i}`;
       let eventType: string =
-        this.eventTypes[Math.floor(Math.random() * this.eventTypes.length)];
+        this.#eventTypes[Math.floor(Math.random() * this.#eventTypes.length)];
       let date: Date = this.getRandomDate(new Date(),  new Date(new Date().setFullYear(new Date().getFullYear() + 1)));
       let location: string =
-        this.locations[
-          Math.floor(Math.random() * this.locations.length)
+        this.#locations[
+          Math.floor(Math.random() * this.#locations.length)
         ];
      let price: string = this.getRandomPrice(0, 100.0, 2);
 
       eventArr.push(
         new Event(
+          i,
           name,
           eventType,
           date,

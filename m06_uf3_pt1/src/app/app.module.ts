@@ -11,6 +11,7 @@ import { ValidatePasswordConfirmationDirective } from './directives/validate-pas
 import { HomeComponent } from './components/home/home.component';
 import { BannedUsernameDirective } from './directives/banned-username.directive';
 import { BannedEmailDirective } from './directives/banned-email.directive';
+import { EventsComponent } from './components/events/events.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { BannedEmailDirective } from './directives/banned-email.directive';
     ValidatePasswordConfirmationDirective,
     HomeComponent,
     BannedUsernameDirective,
-    BannedEmailDirective
+    BannedEmailDirective,
+    EventsComponent
   ],
   imports: [
     BrowserModule,

@@ -105,7 +105,7 @@ export class LoginFormComponent implements OnInit {
       );
       this.credenService.isLoggedIn = true;
       this.localStorageHandler.setLocalStorageToDefault();
-      this.route.navigate(['/home']);
+      this.route.navigate(['/events']);
     } else {
       this.validationError = 'Invalid username or password.';
       // Pass

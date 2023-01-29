@@ -1,0 +1,87 @@
+<section>
+    <div class="container">
+
+    <div class="row text-center">
+        <h3><i><u>Available events</u></i></h3>
+    </div>
+    <p><i style="font-size: 0.9rem;">* To filter the results, just type the name or location, then hit enter.</i></p>
+
+    <form [formGroup]="filterForm" class="mb-3">
+      <div class="row g-3 align-items-center">
+        <div class="col-auto text-center">
+          <label for="search" class="col-form-label">Filter by type</label>
+          <div class="w-100"></div>
+          <input list="searchByType"
+                 name="eventType"
+                 id="eventType"
+                 formControlName="filterByType"
+                 (change)="filterEventsByType(this.filterForm.get('filterByType')?.value)"
+          >
+          <datalist type="text" id="searchByType">
+              <option *ngFor="let Type of this.eventTypes" [value]="Type">
+          </datalist>
+        </div>
+        <div class="col-auto text-center">
+          <label for="search" class="col-form-label">Filter by location</label>
+          <div class="w-100"></div>
+          <input list="searchByLocation"
+                 name="eventLocation"
+                 id="eventLocation"
+                 formControlName="filterByLocation"
+                 (change)="filterBy('location', this.filterForm.get('filterByLocation')?.value)"
+          >
+          <datalist type="text" id="searchByLocation">
+              <option *ngFor="let loc of this.eventLocations" [value]="loc">
+          </datalist>
+        </div>
+      </div>
+    </form>
+
+    <div class='alert alert-info' role='alert'>
+        {{ this.events.length }} events were found.
+    </div>
+
+    <table class="table table-hover">
+      <thead>
+        <tr class="table-secondary">
+            <th *ngFor="let header of this.tableHeaders" scope="col">{{ header | titlecase }}</th>
+            <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let event of this.tableData" class="table-light">
+            <th scope="row">{{ event.name | titlecase }}</th>
+            <td>{{ event.type }}</td>
+            <td>{{ event.date.toLocaleDateString("en-US") }}</td>
+            <td>{{ event.location }}</td>
+            <td>{{ event.price }}</td>
+
+            <td *ngIf="this.cookieRole === 'buyer'">
+                <button
+                    type="button"
+                    class="btn btn-success"
+                    (click)="buyEvent(event)"
+                >
+                    BUY
+                </button>
+            </td>
+
+            <td *ngIf="this.cookieRole === 'administrator'">
+                <button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="deleteEvent(event)"
+                >
+                    DELETE
+                </button>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+
+    </div>
+</section>
+

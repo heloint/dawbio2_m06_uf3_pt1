@@ -4,14 +4,14 @@
  * */
 
 export class Event {
-
+    #id: number;
     #name: string;
     #type: string;
     #date: Date;
     #location: string;
     #price: string;
 
-    constructor(name: string, type: string, date: Date, location: string, price: string) {
+    constructor(id: number, name: string, type: string, date: Date, location: string, price: string) {
 
         if (name.length >= 50 || name.length === 0 || name === null) {
             throw new Error('Max length of the "name" property is 50 characters.');
@@ -22,6 +22,7 @@ export class Event {
             throw new Error('The price currency must be "€" (Euro)!');
         }
 
+        this.#id = id;
         this.#name = name;
         this.#type = type;
         this.#date = date;
@@ -54,6 +55,10 @@ export class Event {
         const trimmedInput = inputPrice.trimEnd();
         const lastChar     = inputPrice[trimmedInput.length - 1];
         return (lastChar === '€');
+    }
+
+    get id(): number {
+        return this.#id;
     }
 
     get name(): string {

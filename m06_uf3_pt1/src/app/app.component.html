@@ -34,6 +34,16 @@
     </li>
     <li *ngIf="this.isLoggedIn" class="nav-item" role="presentation">
       <a
+        routerLink="events"
+        class="nav-link"
+        aria-selected="false"
+        tabindex="-1"
+        role="tab"
+        >Events</a
+      >
+    </li>
+    <li *ngIf="this.isLoggedIn" class="nav-item" role="presentation">
+      <a
         (click)="doLogOut()"
         routerLink=""
         class="nav-link"

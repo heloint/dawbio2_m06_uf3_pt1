@@ -84,6 +84,34 @@ export class ValidateCredentialsService implements OnInit {
           role
         )
       );
+
+      // An administrator user for testing in production.
+      userArr.push(
+        new User(
+          'administrator',
+          'administrator',
+          email,
+          civilState,
+          gender,
+          infoInterests,
+          acceptedCondition,
+          'administrator'
+        )
+      );
+      // A buyer user for testing in production.
+      userArr.push(
+        new User(
+          'buyer',
+          'buyer',
+          email,
+          civilState,
+          gender,
+          infoInterests,
+          acceptedCondition,
+          'buyer'
+        )
+      );
+
     }
 
     return userArr;
