@@ -1,3 +1,7 @@
+/* Handle service for the sessionStorage.
+ * @author Dániel Májer
+ * */
+
 import { Injectable } from '@angular/core';
 
 export type TableFilters = {
@@ -13,6 +17,9 @@ export class SessionStorageHandlerService {
   constructor() { }
 
 
+  /* Initializes TableFilter type object stringified in the sessionStorage.
+   * @return void
+   * */
   public initFilterStorage() {
       let currentTableFilters: TableFilters = {type:'', location: ''};
 
