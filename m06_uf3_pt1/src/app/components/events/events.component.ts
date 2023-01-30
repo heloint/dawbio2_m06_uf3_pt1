@@ -239,7 +239,6 @@ export class EventsComponent implements OnInit {
    ngOnInit() {
        this.tableData = this.getEventsService.eventArr;
        this.triggerAllFilters();
-
    }
 
 }

@@ -4,8 +4,7 @@
       <a
         routerLink="/home"
         class="nav-link active"
-        data-bs-toggle="tab"
-        aria-selected="true"
+        routerLinkActive='active'
         role="tab"
         >Home</a
       >
@@ -14,8 +13,7 @@
       <a
         routerLink="/login"
         class="nav-link"
-        data-bs-toggle="tab"
-        aria-selected="false"
+        routerLinkActive='active'
         role="tab"
         tabindex="-1"
         >Login</a
@@ -25,8 +23,7 @@
       <a
         routerLink="/register"
         class="nav-link"
-        data-bs-toggle="tab"
-        aria-selected="false"
+        routerLinkActive='active'
         tabindex="-1"
         role="tab"
         >Register</a
@@ -34,10 +31,9 @@
     </li>
     <li *ngIf="this.isLoggedIn" class="nav-item" role="presentation">
       <a
-        routerLink="events"
+        routerLink='/events'
         class="nav-link"
-        data-bs-toggle="tab"
-        aria-selected="false"
+        routerLinkActive='active'
         tabindex="-1"
         role="tab"
         >Events</a
@@ -48,7 +44,6 @@
         (click)="doLogOut()"
         routerLink=""
         class="nav-link"
-        aria-selected="false"
         tabindex="-1"
         role="tab"
         >Logout</a
