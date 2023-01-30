@@ -33,6 +33,9 @@ export class EventsComponent implements OnInit {
         private sessionStorageHandler: SessionStorageHandlerService
     ) { }
 
+    /* Get properties of class.
+     * @return Array<string>
+     * */
     get tableHeaders(): Array<string> {
         return Object.getOwnPropertyNames(
                     Object.getPrototypeOf(
@@ -41,36 +44,57 @@ export class EventsComponent implements OnInit {
         ).slice(2);
     }
 
+    /* Get array of Event objects.
+     * @return Array<Event>
+     * */
     get events(): Array<Event> {
         return this.getEventsService.eventArr;
     }
 
+    /* Get set of "types" of the Event objects.
+     * @return Set<string>
+     * */
     get eventTypes(): Set<string> {
         return new Set(Array.from(this.getEventsService.eventArr.map(e => {
             return e.type
         })));
     }
 
+    /* Get set of "locations" of the Event objects.
+     * @return Set<string>
+     * */
     get eventLocations(): Set<string> {
         return new Set(Array.from(this.getEventsService.eventArr.map(e => {
             return e.location
         })));
     }
 
-    get cookieUsername() {
+    /* Get username from cookie.
+     * @return string
+     * */
+    get cookieUsername(): string {
         return Object.keys(this.cookieService.getAll())[0];
     }
 
-    get cookieRole() {
+    /* Get role from cookie.
+     * @return string
+     * */
+    get cookieRole(): string {
         return Object.values(this.cookieService.getAll())[0];
     }
 
+    // Initialize "filterForm" FormGroup for the filters and row number adjustments.
     filterForm: FormGroup = new FormGroup({
       filterByType: new FormControl(JSON.parse(sessionStorage['tableFilters']).type, []),
       filterByLocation: new FormControl(JSON.parse(sessionStorage['tableFilters']).location, []),
       rowNums: new FormControl(this.rowNumberLimit, []),
     });
 
+    /* Update the filters stored with "tableFilters" key in the sessionStorage.
+     * @param byValue string
+     * @param value string
+     * @return void
+     * */
     private updateFilterStorage(byValue: string, value: string) {
 
         let tmp: TableFilters = {type: '', location: ''};
@@ -90,6 +114,11 @@ export class EventsComponent implements OnInit {
 
     }
 
+    /* Filter Event objects from array by the "byValue" property with the "value" value.
+     * @param byValue string
+     * @param value string
+     * @return void
+     * */
     public filterBy(byValue: string, value: string) {
 
         // Update filters in the sessionStorage.
@@ -147,6 +176,10 @@ export class EventsComponent implements OnInit {
         }
     }
 
+    /* Gets filters from the sessionStorage and filters the Event objects array
+    * applying all of them.
+     * @return void
+     * */
     public triggerAllFilters() {
         const filters: Array<Array<string>> =
             Object.entries(JSON.parse(sessionStorage['tableFilters']));
@@ -159,14 +192,26 @@ export class EventsComponent implements OnInit {
         });
     }
 
+    /* Resets the "this.tableData" with the original (unfiltered) array of
+    * Event objects from the "GetEventsService" service.
+     * @return void
+     * */
     public resetFilters() {
         this.tableData = this.getEventsService.eventArr;
     }
 
+    /* Proceeds with the purchase transaction of the user.
+     * @param event Event
+     * */
     public buyEvent(event: Event) {
         // TODO
     }
 
+    /* Deletes the event from the the "this.getEventsService.eventArr" array of
+     * the getEventsService.
+     * @param event Event
+     * @return void
+     * */
     public deleteEvent(event: Event) {
         const eventIndex = this.getEventsService.eventArr.indexOf(event);
 
@@ -176,6 +221,12 @@ export class EventsComponent implements OnInit {
     }
 
 
+    /* Receives a number as an argument, and update the "this.rowNumberLimit"
+     * property of this class. This property is used for the view to limit the
+     * number of results displayed.
+     * @param rowNums number
+     * @return void
+     * */
     public adjustRowNums(rowNums: number) {
 
         if (isNaN(rowNums)) {
