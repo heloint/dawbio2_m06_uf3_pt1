@@ -1,3 +1,8 @@
+/*
+ * Component of the events' table.
+ * Author: Dániel Májer
+ */
+
 import { Component, OnInit } from '@angular/core';
 import {
   GetEventsService,
@@ -59,8 +64,8 @@ export class EventsComponent implements OnInit {
     }
 
     filterForm: FormGroup = new FormGroup({
-      filterByType: new FormControl('', []),
-      filterByLocation: new FormControl('', []),
+      filterByType: new FormControl(JSON.parse(sessionStorage['tableFilters']).type, []),
+      filterByLocation: new FormControl(JSON.parse(sessionStorage['tableFilters']).location, []),
       rowNums: new FormControl(this.rowNumberLimit, []),
     });
 
@@ -104,14 +109,16 @@ export class EventsComponent implements OnInit {
 
             // Start filtering and collecting the 
             // matching Event objects into the tmpTableData array.
-            let tmpTableData: Array<Event> = [];
+            let tmpTableData: Array<Event> = this.tableData;
+            let tableDataToIter: Array<Event> = structuredClone(tmpTableData);
             for(const filter of currentFilters) {
                 const key: string = filter[0];
                 const value: string = filter[1];
 
                 if (value !== '') {
-                    for(const eventObj of this.tableData) {
-                        if (eval(`eventObj.${key}`).toLowerCase() === value.toLowerCase()) {
+                    for(const eventObj of tableDataToIter) {
+                        if (eval(`eventObj.${key}`).toLowerCase() !== value.toLowerCase()) {
+                            const objIndex: number = tmpTableData
                             tmpTableData.push(eventObj);
                         }
                     }
@@ -174,16 +181,12 @@ export class EventsComponent implements OnInit {
             currentTableFilters = JSON.parse(sessionStorage['tableFilters']);
         }
     }
+
    ngOnInit() {
        this.tableData = this.getEventsService.eventArr;
-       this.tableData = [];
-
+       this.triggerAllFilters();
 
        this.initFilterStorage();
-
    }
 
-   public log(txt: string) {
-       console.log(txt);
-   }
 }
