@@ -6,7 +6,7 @@ import { Event } from '../../models/event.model';
 import { CookieService } from 'ngx-cookie-service';
 import { FormControl, FormGroup} from '@angular/forms';
 
-interface TableFilters {
+type TableFilters = {
     type: string,
     location: string
 }
@@ -62,40 +62,55 @@ export class EventsComponent implements OnInit {
       filterByLocation: new FormControl('', []),
     });
 
+    private updateFilterStorage(byValue: string, value: string) {
 
-    public filterBy(byValue: string, value: string) {
+        let tmp: TableFilters = {type: '', location: ''};
 
-        // Get previous filters.
-        let tmp = JSON.parse(sessionStorage['tableFilters']);
+        // Get previous filters. If undefined, initialize one.
+        if (sessionStorage['tableFilters'] !== undefined) {
+            tmp = JSON.parse(sessionStorage['tableFilters']);
+        } else {
+            this.initFilterStorage();
+        }
 
         // Modify requested filter.
-        tmp[byValue] = value;
+        tmp[byValue as keyof TableFilters] = value;
 
         // Save the modified version of the current filters.
         sessionStorage['tableFilters'] = JSON.stringify(tmp);
 
+    }
+
+    public filterBy(byValue: string, value: string) {
+        
+        // Update filters in the sessionStorage.
+        this.updateFilterStorage(byValue, value);
+
         // Reset the component's copy of the table data.
         this.tableData = this.getEventsService.eventArr;
+        
+        // Get current filters.
+        const currentFilters: Array<Array<string>> = 
+            Object.entries(JSON.parse(sessionStorage['tableFilters']));
 
-        // Init vars in this scope.
-        let tmpKey: any;
-        let tmpValue: any;
+        // Start filtering and collecting the 
+        // matching Event objects into the tmpTableData array.
+        let tmpTableData: Array<Event> = [];
+        for(const filter of currentFilters) {
+            const key: string = filter[0];
+            const value: string = filter[1];
 
-        // Start the refiltration.
-        Object.entries(tmp).forEach((pair) => {
-            tmpKey = pair[0];
-            tmpValue = pair[1];
-
-            this.tableData = this.tableData.filter(e => {
-
-                console.log(tmpKey);
-                console.log(tmpValue);
-                if (eval(`e.${tmpKey}`) === tmpValue) {
-                    return e;
+            if (value !== '') {
+                for(const eventObj of this.tableData) {
+                    if (eval(`eventObj.${key}`) === value) {
+                        tmpTableData.push(eventObj);
+                    }
                 }
-                return;
-            });
-        });
+            }
+        }
+
+        // Reassign the filtered array of Event objects.
+        this.tableData = tmpTableData;
     }
 
     public filterEventsByType(type: string) {
