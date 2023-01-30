@@ -57,30 +57,51 @@ export class Event {
         return (lastChar === '€');
     }
 
+    /* Get id.
+     * @return number
+     * */
     get id(): number {
         return this.#id;
     }
 
+    /* Get name.
+     * @return string
+     * */
     get name(): string {
         return this.#name;
     }
 
+    /* Get type.
+     * @return string
+     * */
     get type(): string {
         return this.#type;
     }
 
+    /* Get date.
+     * @return Date
+     * */
     get date(): Date {
         return this.#date;
     }
 
+    /* Get location.
+     * @return string
+     * */
     get location(): string {
         return this.#location;
     }
 
+    /* Get price.
+     * @return string
+     * */
     get price(): string {
         return this.#price;
     }
 
+    /* Set name.
+     * @param name string
+     * */
     set name(name: string) {
         if (name.length >= 50 || name.length === 0 || name === null) {
             throw new Error('Max length of the "name" property is 50 characters.');
@@ -88,10 +109,16 @@ export class Event {
         this.#name = name;
     }
 
+    /* Set type.
+     * @param type string
+     * */
     set type(type: string) {
          this.#type = type;
     }
 
+    /* Set date.
+     * @param date Date
+     * */
     set date(date: Date) {
         if (!this.#validateDate(date)) {
             throw new Error('Date cannot be later, than 1 year from current date.');
@@ -99,10 +126,16 @@ export class Event {
         this.#date = date;
     }
 
+    /* Set location.
+     * @param location string
+     * */
     set location(location: string) {
          this.#location = location;
     }
 
+    /* Set price.
+     * @param price string
+     * */
     set price(price: string) {
         if (!this.#validateCurrencyIsEuro) {
             throw new Error('The price currency must be "€" (Euro)!');
