@@ -10,6 +10,7 @@ import {
 import { Event } from '../../models/event.model';
 import { CookieService } from 'ngx-cookie-service';
 import { FormControl, FormGroup} from '@angular/forms';
+import { SessionStorageHandlerService } from '../../services/session-storage-handler.service';
 
 type TableFilters = {
     type: string,
@@ -28,7 +29,8 @@ export class EventsComponent implements OnInit {
 
     constructor(
         private getEventsService: GetEventsService,
-        private cookieService: CookieService
+        private cookieService: CookieService,
+        private sessionStorageHandler: SessionStorageHandlerService
     ) { }
 
     get tableHeaders(): Array<string> {
@@ -42,7 +44,7 @@ export class EventsComponent implements OnInit {
     get events(): Array<Event> {
         return this.getEventsService.eventArr;
     }
-    
+
     get eventTypes(): Set<string> {
         return new Set(Array.from(this.getEventsService.eventArr.map(e => {
             return e.type
@@ -77,7 +79,7 @@ export class EventsComponent implements OnInit {
         if (sessionStorage['tableFilters'] !== undefined) {
             tmp = JSON.parse(sessionStorage['tableFilters']);
         } else {
-            this.initFilterStorage();
+            this.sessionStorageHandler.initFilterStorage();
         }
 
         // Modify requested filter.
@@ -89,42 +91,54 @@ export class EventsComponent implements OnInit {
     }
 
     public filterBy(byValue: string, value: string) {
-        
+
         // Update filters in the sessionStorage.
         this.updateFilterStorage(byValue, value);
 
         // Reset the component's copy of the table data.
         this.tableData = this.getEventsService.eventArr;
-        
+
         // Check if all the filter values are empty.
-        const areEmptyFilters: Boolean = 
+        const areEmptyFilters: Boolean =
             Object.values(JSON.parse(sessionStorage['tableFilters'])).every(item => !item)
 
         // If filters are not empty, then start filtering.
         if ( !areEmptyFilters) {
 
             // Get current filters.
-            const currentFilters: Array<Array<string>> = 
+            const currentFilters: Array<Array<string>> =
                 Object.entries(JSON.parse(sessionStorage['tableFilters']));
 
-            // Start filtering and collecting the 
+            const filtersNum: number = currentFilters.filter(a => a[1].length !== 0).length;
+            // Start filtering and collecting the
             // matching Event objects into the tmpTableData array.
-            let tmpTableData: Array<Event> = this.tableData;
-            let tableDataToIter: Array<Event> = structuredClone(tmpTableData);
-            for(const filter of currentFilters) {
+            let tmpTableData: Array<Event> = this.tableData.map(a => {return a});
+
+            // Create a copy, so we don't mutate "tmpTableData" during iteration.
+            let tableDataToIter: Array<Event> = this.tableData.map(a => {return a});
+            for(const eventObj of tableDataToIter) {
+              let matchCounter: number = 0;
+
+
+              for(const filter of currentFilters) {
                 const key: string = filter[0];
                 const value: string = filter[1];
 
                 if (value !== '') {
-                    for(const eventObj of tableDataToIter) {
-                        if (eval(`eventObj.${key}`).toLowerCase() !== value.toLowerCase()) {
-                            const objIndex: number = tmpTableData
-                            tmpTableData.push(eventObj);
-                        }
-                    }
+                  if (eval(`eventObj.${key}`).toLowerCase() === value.toLowerCase()) {
+                    matchCounter ++;
+                  }
                 }
-            }
+              }
+              console.log({matchCounter, filtersNum});
+              if (matchCounter < filtersNum) {
+                const objIndex: number = tmpTableData.indexOf(eventObj);
 
+                if (objIndex !== -1) {
+                  tmpTableData.splice(objIndex, 1);
+                }
+              }
+            }
             // Reassign the filtered array of Event objects.
             this.tableData = tmpTableData;
         } else {
@@ -134,7 +148,7 @@ export class EventsComponent implements OnInit {
     }
 
     public triggerAllFilters() {
-        const filters: Array<Array<string>> = 
+        const filters: Array<Array<string>> =
             Object.entries(JSON.parse(sessionStorage['tableFilters']));
 
         filters.forEach((filter) => {
@@ -171,22 +185,10 @@ export class EventsComponent implements OnInit {
         this.rowNumberLimit = rowNums;
     }
 
-    private initFilterStorage() {
-        let currentTableFilters: TableFilters = {type:'', location: ''};
-
-        // Initialize 'tableFilter' TableFilters type object in sessionStorage.
-        if (!Object.keys(sessionStorage).includes('tableFilters')){
-            sessionStorage['tableFilters'] = JSON.stringify(currentTableFilters);
-        } else {
-            currentTableFilters = JSON.parse(sessionStorage['tableFilters']);
-        }
-    }
-
    ngOnInit() {
        this.tableData = this.getEventsService.eventArr;
        this.triggerAllFilters();
 
-       this.initFilterStorage();
    }
 
 }

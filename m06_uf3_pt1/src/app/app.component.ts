@@ -5,6 +5,12 @@ import {
   InfoTypes,
 } from './services/validate-credentials.service';
 import { LocalStorageHandlerService } from './services/local-storage-handler.service';
+import { SessionStorageHandlerService } from './services/session-storage-handler.service';
+
+type TableFilters = {
+    type: string,
+    location: string
+}
 
 @Component({
   selector: 'app-root',
@@ -17,7 +23,8 @@ export class AppComponent implements OnInit {
   constructor(
     private credenService: ValidateCredentialsService,
     private cookieService: CookieService,
-    private localStorageHandler: LocalStorageHandlerService
+    private localStorageHandler: LocalStorageHandlerService,
+    private sessionStorageHandler: SessionStorageHandlerService
   ) {}
 
   // Check if user logged in from cookie.
@@ -73,5 +80,8 @@ export class AppComponent implements OnInit {
         }
       });
     }
+
+    this.sessionStorageHandler.initFilterStorage();
+
   }
 }
