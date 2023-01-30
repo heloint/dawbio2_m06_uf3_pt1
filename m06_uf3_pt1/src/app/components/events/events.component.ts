@@ -19,6 +19,7 @@ type TableFilters = {
 export class EventsComponent implements OnInit {
 
     tableData!: Array<Event>;
+    rowNumberLimit: number = 20;
 
     constructor(
         private getEventsService: GetEventsService,
@@ -60,6 +61,7 @@ export class EventsComponent implements OnInit {
     filterForm: FormGroup = new FormGroup({
       filterByType: new FormControl('', []),
       filterByLocation: new FormControl('', []),
+      rowNums: new FormControl(this.rowNumberLimit, []),
     });
 
     private updateFilterStorage(byValue: string, value: string) {
@@ -89,64 +91,55 @@ export class EventsComponent implements OnInit {
         // Reset the component's copy of the table data.
         this.tableData = this.getEventsService.eventArr;
         
-        // Get current filters.
-        const currentFilters: Array<Array<string>> = 
-            Object.entries(JSON.parse(sessionStorage['tableFilters']));
+        // Check if all the filter values are empty.
+        const areEmptyFilters: Boolean = 
+            Object.values(JSON.parse(sessionStorage['tableFilters'])).every(item => !item)
 
-        // Start filtering and collecting the 
-        // matching Event objects into the tmpTableData array.
-        let tmpTableData: Array<Event> = [];
-        for(const filter of currentFilters) {
-            const key: string = filter[0];
-            const value: string = filter[1];
+        // If filters are not empty, then start filtering.
+        if ( !areEmptyFilters) {
 
-            if (value !== '') {
-                for(const eventObj of this.tableData) {
-                    if (eval(`eventObj.${key}`) === value) {
-                        tmpTableData.push(eventObj);
+            // Get current filters.
+            const currentFilters: Array<Array<string>> = 
+                Object.entries(JSON.parse(sessionStorage['tableFilters']));
+
+            // Start filtering and collecting the 
+            // matching Event objects into the tmpTableData array.
+            let tmpTableData: Array<Event> = [];
+            for(const filter of currentFilters) {
+                const key: string = filter[0];
+                const value: string = filter[1];
+
+                if (value !== '') {
+                    for(const eventObj of this.tableData) {
+                        if (eval(`eventObj.${key}`).toLowerCase() === value.toLowerCase()) {
+                            tmpTableData.push(eventObj);
+                        }
                     }
                 }
             }
-        }
 
-        // Reassign the filtered array of Event objects.
-        this.tableData = tmpTableData;
-    }
-
-    public filterEventsByType(type: string) {
-
-        sessionStorage['typeFilter'] = type;
-
-        if (type !== '') {
-            this.tableData = this.getEventsService.eventArr.filter(e => {
-                    if (e.type === type) {
-                        return e;
-                    }
-                    return;
-                });
-        } else if (sessionStorage['locationFilter'] !== '') {
-            this.filterEventsByLocation(sessionStorage['locationFilter']);
+            // Reassign the filtered array of Event objects.
+            this.tableData = tmpTableData;
         } else {
+            // If the filters are empty, then reset the table.
             this.tableData = this.getEventsService.eventArr;
         }
-
     }
 
-    public filterEventsByLocation(location: string) {
-        sessionStorage['locationFilter'] = location;
+    public triggerAllFilters() {
+        const filters: Array<Array<string>> = 
+            Object.entries(JSON.parse(sessionStorage['tableFilters']));
 
-        if (location !== '') {
-            this.tableData = this.getEventsService.eventArr.filter(e => {
-                    if (e.location === location) {
-                        return e;
-                    }
-                    return;
-                });
-        } else if (sessionStorage['typeFilter'] !== '') {
-            this.filterEventsByType(sessionStorage['typeFilter']);
-        } else {
-            this.tableData = this.getEventsService.eventArr;
-        }
+        filters.forEach((filter) => {
+            const key: string = filter[0];
+            const value: string = filter[1];
+
+            this.filterBy(key, value);
+        });
+    }
+
+    public resetFilters() {
+        this.tableData = this.getEventsService.eventArr;
     }
 
     public buyEvent(event: Event) {
@@ -161,6 +154,16 @@ export class EventsComponent implements OnInit {
         }
     }
 
+
+    public adjustRowNums(rowNums: number) {
+
+        if (isNaN(rowNums)) {
+            throw new Error('Parameter "rowNums" must be numeric value');
+        }
+
+        this.rowNumberLimit = rowNums;
+    }
+
     private initFilterStorage() {
         let currentTableFilters: TableFilters = {type:'', location: ''};
 
@@ -171,12 +174,16 @@ export class EventsComponent implements OnInit {
             currentTableFilters = JSON.parse(sessionStorage['tableFilters']);
         }
     }
-
    ngOnInit() {
        this.tableData = this.getEventsService.eventArr;
+       this.tableData = [];
 
 
        this.initFilterStorage();
 
+   }
+
+   public log(txt: string) {
+       console.log(txt);
    }
 }

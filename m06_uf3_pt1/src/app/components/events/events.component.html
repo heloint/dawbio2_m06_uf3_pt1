@@ -4,7 +4,6 @@
     <div class="row text-center">
         <h3><i><u>Available events</u></i></h3>
     </div>
-    <p><i style="font-size: 0.9rem;">* To filter the results, just type the name or location, then hit enter.</i></p>
 
     <form [formGroup]="filterForm" class="mb-3">
       <div class="row g-3 align-items-center">
@@ -15,7 +14,7 @@
                  name="eventType"
                  id="eventType"
                  formControlName="filterByType"
-                 (change)="filterEventsByType(this.filterForm.get('filterByType')?.value)"
+                 (change)="filterBy('type', this.filterForm.get('filterByType')?.value)"
           >
           <datalist type="text" id="searchByType">
               <option *ngFor="let Type of this.eventTypes" [value]="Type">
@@ -34,7 +33,33 @@
               <option *ngFor="let loc of this.eventLocations" [value]="loc">
           </datalist>
         </div>
+        <div class="col-auto pt-5">
+            <button type="button" 
+                    (click)="triggerAllFilters()"
+            >
+                Filter
+            </button>
+        </div>
+        <div class="col-auto pt-5">
+            <button type="button" 
+                    (click)="resetFilters()"
+            >
+                Reset filters
+            </button>
+        </div>
       </div>
+    <p><i style="font-size: 0.9rem;">* To filter the results, just type the name or location, then click filter or hit enter.</i></p>
+    <div class="col-auto">
+        <label for="row-num" class="">Number of rows</label>
+        <input type="number"
+               id="row-num"
+               min=1
+               style="width: 5rem; margin-left: 1rem;"
+               formControlName="rowNums"
+               (change)="adjustRowNums(this.filterForm.get('rowNums')?.value)"
+
+        >
+    </div>
     </form>
 
     <div class='alert alert-info' role='alert'>
@@ -48,8 +73,8 @@
             <th>Action</th>
         </tr>
       </thead>
-      <tbody>
-        <tr *ngFor="let event of this.tableData" class="table-light">
+      <tbody *ngIf="this.tableData.length !== 0;else notFound">
+        <tr *ngFor="let event of this.tableData.slice(0, this.rowNumberLimit)" class="table-light">
             <th scope="row">{{ event.name | titlecase }}</th>
             <td>{{ event.type }}</td>
             <td>{{ event.date.toLocaleDateString("en-US") }}</td>
@@ -77,6 +102,13 @@
             </td>
         </tr>
       </tbody>
+      <ng-template #notFound>
+          <tbody>
+              <tr>
+                  <td class="text-center bg-warning" [colSpan]="this.tableHeaders.length+1">Couldn't find any events.</td>
+              </tr>
+          </tbody>
+      </ng-template>
     </table>
 
 
