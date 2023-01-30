@@ -36,6 +36,7 @@
       <a
         routerLink="events"
         class="nav-link"
+        data-bs-toggle="tab"
         aria-selected="false"
         tabindex="-1"
         role="tab"
@@ -56,9 +57,14 @@
   </ul>
 </div>
 
-<div *ngIf="this.isLoggedIn">
-  <p>User: {{ this.loggedInRole }}</p>
-  <p>{{ this.loggedInUsername }}</p>
+<div *ngIf="this.isLoggedIn" class="d-flex justify-content-start align-items-center">
+  <span>
+    <img src="/assets/images/anonym-user-profile.png" style="width:8rem;heigh:8rem;">
+  </span>
+  <span>
+    <p><b><u>User:</u></b> {{ this.loggedInRole }}</p>
+    <p><b><u>Role:</u></b> {{ this.loggedInUsername }}</p>
+  </span>
 </div>
 
 <router-outlet></router-outlet>
