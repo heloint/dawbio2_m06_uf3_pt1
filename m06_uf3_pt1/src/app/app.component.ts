@@ -1,4 +1,8 @@
-import { Router } from '@angular/router';
+/*
+* Main component.
+* @author Dániel Májer
+* */
+
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import {
@@ -22,7 +26,6 @@ export class AppComponent implements OnInit {
   title = 'm06_uf3_pt1';
   lala = '/events';
   constructor(
-    public route: Router,
     private credenService: ValidateCredentialsService,
     private cookieService: CookieService,
     private localStorageHandler: LocalStorageHandlerService,
