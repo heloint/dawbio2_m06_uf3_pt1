@@ -4,7 +4,7 @@
       <a
         routerLink="/home"
         class="nav-link active"
-        routerLinkActive='active'
+        routerLinkActive="active"
         role="tab"
         >Home</a
       >
@@ -13,7 +13,7 @@
       <a
         routerLink="/login"
         class="nav-link"
-        routerLinkActive='active'
+        routerLinkActive="active"
         role="tab"
         tabindex="-1"
         >Login</a
@@ -23,7 +23,7 @@
       <a
         routerLink="/register"
         class="nav-link"
-        routerLinkActive='active'
+        routerLinkActive="active"
         tabindex="-1"
         role="tab"
         >Register</a
@@ -31,9 +31,9 @@
     </li>
     <li *ngIf="this.isLoggedIn" class="nav-item" role="presentation">
       <a
-        routerLink='/events'
+        routerLink="/events"
         class="nav-link"
-        routerLinkActive='active'
+        routerLinkActive="active"
         tabindex="-1"
         role="tab"
         >Events</a
@@ -52,13 +52,23 @@
   </ul>
 </div>
 
-<div *ngIf="this.isLoggedIn" class="d-flex justify-content-start align-items-center">
+<div
+  *ngIf="this.isLoggedIn"
+  class="d-flex justify-content-start align-items-center"
+>
   <span>
-    <img src="/assets/images/anonym-user-profile.png" style="width:8rem;heigh:8rem;">
+    <img
+      src="/assets/images/anonym-user-profile.png"
+      style="width: 8rem; heigh: 8rem"
+    />
   </span>
   <span>
-    <p><b><u>User:</u></b> {{ this.loggedInRole }}</p>
-    <p><b><u>Role:</u></b> {{ this.loggedInUsername }}</p>
+    <p>
+      <b><u>User:</u></b> {{ this.loggedInRole }}
+    </p>
+    <p>
+      <b><u>Role:</u></b> {{ this.loggedInUsername }}
+    </p>
   </span>
 </div>
 

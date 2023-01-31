@@ -23,15 +23,10 @@ import { EventsComponent } from './components/events/events.component';
     HomeComponent,
     BannedUsernameDirective,
     BannedEmailDirective,
-    EventsComponent
+    EventsComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

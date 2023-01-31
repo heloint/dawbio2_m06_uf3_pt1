@@ -7,10 +7,9 @@ import { Injectable, OnInit } from '@angular/core';
 import { Event } from '../models/event.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GetEventsService {
-
   constructor() {}
 
   // Initialize and declare variables.
@@ -23,7 +22,7 @@ export class GetEventsService {
     "L'Hospitalet de Llobregat",
     'Manresa',
     'Mataró',
-    'Reus'
+    'Reus',
   ];
 
   // Generate 100 event objects.
@@ -36,7 +35,7 @@ export class GetEventsService {
    * @return string
    * */
   private getRandomPrice(from: number, to: number, decimals: number): string {
-    return `${(Math.random() * (to-from) +from).toFixed(decimals)} €`;
+    return `${(Math.random() * (to - from) + from).toFixed(decimals)} €`;
   }
 
   /* Get random date between range.
@@ -45,9 +44,9 @@ export class GetEventsService {
    * @return Date
    * */
   private getRandomDate(from: Date, to: Date): Date {
-      const fromTime = from.getTime();
-      const toTime = to.getTime();
-      return new Date(fromTime + Math.random() * (toTime - fromTime));
+    const fromTime = from.getTime();
+    const toTime = to.getTime();
+    return new Date(fromTime + Math.random() * (toTime - fromTime));
   }
 
   /* Generate N users objects.
@@ -61,23 +60,15 @@ export class GetEventsService {
       let name: string = `event${i}${i}`;
       let eventType: string =
         this.#eventTypes[Math.floor(Math.random() * this.#eventTypes.length)];
-      let date: Date = this.getRandomDate(new Date(),  new Date(new Date().setFullYear(new Date().getFullYear() + 1)));
-      let location: string =
-        this.#locations[
-          Math.floor(Math.random() * this.#locations.length)
-        ];
-     let price: string = this.getRandomPrice(0, 100.0, 2);
-
-      eventArr.push(
-        new Event(
-          i,
-          name,
-          eventType,
-          date,
-          location,
-          price
-        )
+      let date: Date = this.getRandomDate(
+        new Date(),
+        new Date(new Date().setFullYear(new Date().getFullYear() + 1))
       );
+      let location: string =
+        this.#locations[Math.floor(Math.random() * this.#locations.length)];
+      let price: string = this.getRandomPrice(0, 100.0, 2);
+
+      eventArr.push(new Event(i, name, eventType, date, location, price));
     }
 
     return eventArr;

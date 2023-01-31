@@ -1,6 +1,6 @@
 /* Component for that scenery if the user try to access to a not available page.
-* @author Dániel Májer
-* */
+ * @author Dániel Májer
+ * */
 
 import { Component } from '@angular/core';
 

@@ -1,8 +1,9 @@
 <section>
-    <div class="container">
-
+  <div class="container">
     <div class="row text-center">
-        <h3><i><u>Available events</u></i></h3>
+      <h3>
+        <i><u>Available events</u></i>
+      </h3>
     </div>
 
     <form [formGroup]="filterForm" class="mb-3">
@@ -10,110 +11,127 @@
         <div class="col-auto text-center">
           <label for="search" class="col-form-label">Filter by type</label>
           <div class="w-100"></div>
-          <input list="searchByType"
-                 name="eventType"
-                 id="eventType"
-                 formControlName="filterByType"
-                 (change)="filterBy('type', this.filterForm.get('filterByType')?.value)"
-          >
+          <input
+            list="searchByType"
+            name="eventType"
+            id="eventType"
+            formControlName="filterByType"
+            (change)="
+              filterBy('type', this.filterForm.get('filterByType')?.value)
+            "
+          />
           <datalist type="text" id="searchByType">
-              <option *ngFor="let Type of this.eventTypes" [value]="Type">
+            <option
+              *ngFor="let Type of this.eventTypes"
+              [value]="Type"
+            ></option>
           </datalist>
         </div>
         <div class="col-auto text-center">
           <label for="search" class="col-form-label">Filter by location</label>
           <div class="w-100"></div>
-          <input list="searchByLocation"
-                 name="eventLocation"
-                 id="eventLocation"
-                 formControlName="filterByLocation"
-                 (change)="filterBy('location', this.filterForm.get('filterByLocation')?.value)"
-          >
+          <input
+            list="searchByLocation"
+            name="eventLocation"
+            id="eventLocation"
+            formControlName="filterByLocation"
+            (change)="
+              filterBy(
+                'location',
+                this.filterForm.get('filterByLocation')?.value
+              )
+            "
+          />
           <datalist type="text" id="searchByLocation">
-              <option *ngFor="let loc of this.eventLocations" [value]="loc">
+            <option
+              *ngFor="let loc of this.eventLocations"
+              [value]="loc"
+            ></option>
           </datalist>
         </div>
         <div class="col-auto pt-5">
-            <button type="button" 
-                    (click)="triggerAllFilters()"
-            >
-                Filter
-            </button>
+          <button type="button" (click)="triggerAllFilters()">Filter</button>
         </div>
         <div class="col-auto pt-5">
-            <button type="button" 
-                    (click)="resetFilters()"
-            >
-                Reset filters
-            </button>
+          <button type="button" (click)="resetFilters()">Reset filters</button>
         </div>
       </div>
-    <p><i style="font-size: 0.9rem;">* To filter the results, just type the name or location, then click filter or hit enter.</i></p>
-    <div class="col-auto">
-        <label for="row-num" class="">Number of rows</label>
-        <input type="number"
-               id="row-num"
-               min=1
-               style="width: 5rem; margin-left: 1rem;"
-               formControlName="rowNums"
-               (change)="adjustRowNums(this.filterForm.get('rowNums')?.value)"
-
+      <p>
+        <i style="font-size: 0.9rem"
+          >* To filter the results, just type the name or location, then click
+          filter or hit enter.</i
         >
-    </div>
+      </p>
+      <div class="col-auto">
+        <label for="row-num" class="">Number of rows</label>
+        <input
+          type="number"
+          id="row-num"
+          min="1"
+          style="width: 5rem; margin-left: 1rem"
+          formControlName="rowNums"
+          (change)="adjustRowNums(this.filterForm.get('rowNums')?.value)"
+        />
+      </div>
     </form>
 
-    <div class='alert alert-info' role='alert'>
-        {{ this.events.length }} events were found.
+    <div class="alert alert-info" role="alert">
+      {{ this.events.length }} events were found.
     </div>
 
     <table class="table table-hover">
       <thead>
         <tr class="table-secondary">
-            <th *ngFor="let header of this.tableHeaders" scope="col">{{ header | titlecase }}</th>
-            <th>Action</th>
+          <th *ngFor="let header of this.tableHeaders" scope="col">
+            {{ header | titlecase }}
+          </th>
+          <th>Action</th>
         </tr>
       </thead>
-      <tbody *ngIf="this.tableData.length !== 0;else notFound">
-        <tr *ngFor="let event of this.tableData.slice(0, this.rowNumberLimit)" class="table-light">
-            <th scope="row">{{ event.name | titlecase }}</th>
-            <td>{{ event.type }}</td>
-            <td>{{ event.date.toLocaleDateString("en-US") }}</td>
-            <td>{{ event.location }}</td>
-            <td>{{ event.price }}</td>
+      <tbody *ngIf="this.tableData.length !== 0; else notFound">
+        <tr
+          *ngFor="let event of this.tableData.slice(0, this.rowNumberLimit)"
+          class="table-light"
+        >
+          <th scope="row">{{ event.name | titlecase }}</th>
+          <td>{{ event.type }}</td>
+          <td>{{ event.date.toLocaleDateString("en-US") }}</td>
+          <td>{{ event.location }}</td>
+          <td>{{ event.price }}</td>
 
-            <td *ngIf="this.cookieRole === 'buyer'">
-                <button
-                    type="button"
-                    class="btn btn-success"
-                    (click)="buyEvent(event)"
-                >
-                    BUY
-                </button>
-            </td>
+          <td *ngIf="this.cookieRole === 'buyer'">
+            <button
+              type="button"
+              class="btn btn-success"
+              (click)="buyEvent(event)"
+            >
+              BUY
+            </button>
+          </td>
 
-            <td *ngIf="this.cookieRole === 'administrator'">
-                <button
-                    type="button"
-                    class="btn btn-danger"
-                    (click)="deleteEvent(event)"
-                >
-                    DELETE
-                </button>
-            </td>
+          <td *ngIf="this.cookieRole === 'administrator'">
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="deleteEvent(event)"
+            >
+              DELETE
+            </button>
+          </td>
         </tr>
       </tbody>
       <ng-template #notFound>
-          <tbody>
-              <tr>
-                  <td class="text-center bg-warning" [colSpan]="this.tableHeaders.length+1">Couldn't find any events.</td>
-              </tr>
-          </tbody>
+        <tbody>
+          <tr>
+            <td
+              class="text-center bg-warning"
+              [colSpan]="this.tableHeaders.length + 1"
+            >
+              Couldn't find any events.
+            </td>
+          </tr>
+        </tbody>
       </ng-template>
     </table>
-
-
-
-
-    </div>
+  </div>
 </section>
-

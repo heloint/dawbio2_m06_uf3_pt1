@@ -1,7 +1,7 @@
 /*
-* Main component.
-* @author Dániel Májer
-* */
+ * Main component.
+ * @author Dániel Májer
+ * */
 
 import { Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
@@ -13,9 +13,9 @@ import { LocalStorageHandlerService } from './services/local-storage-handler.ser
 import { SessionStorageHandlerService } from './services/session-storage-handler.service';
 
 type TableFilters = {
-    type: string,
-    location: string
-}
+  type: string;
+  location: string;
+};
 
 @Component({
   selector: 'app-root',
@@ -88,5 +88,4 @@ export class AppComponent implements OnInit {
 
     this.sessionStorageHandler.initFilterStorage();
   }
-
 }

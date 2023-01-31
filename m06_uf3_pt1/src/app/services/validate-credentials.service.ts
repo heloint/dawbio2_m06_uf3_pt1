@@ -111,7 +111,6 @@ export class ValidateCredentialsService implements OnInit {
           'buyer'
         )
       );
-
     }
 
     return userArr;
