@@ -12,6 +12,7 @@ import { HomeComponent } from './components/home/home.component';
 import { BannedUsernameDirective } from './directives/banned-username.directive';
 import { BannedEmailDirective } from './directives/banned-email.directive';
 import { EventsComponent } from './components/events/events.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,13 @@ import { EventsComponent } from './components/events/events.component';
     BannedEmailDirective,
     EventsComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgxPaginationModule
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

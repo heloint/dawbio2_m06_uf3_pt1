@@ -74,11 +74,10 @@
         />
       </div>
     </form>
-
     <div class="alert alert-info" role="alert">
       {{ this.events.length }} events were found.
     </div>
-
+    <pagination-controls (pageChange)="cp=$event"></pagination-controls>
     <table class="table table-hover">
       <thead>
         <tr class="table-secondary">
@@ -90,7 +89,7 @@
       </thead>
       <tbody *ngIf="this.tableData.length !== 0; else notFound">
         <tr
-          *ngFor="let event of this.tableData.slice(0, this.rowNumberLimit)"
+          *ngFor="let event of this.tableData | paginate: { itemsPerPage: this.rowNumberLimit, currentPage: cp }"
           class="table-light"
         >
           <th scope="row">{{ event.name | titlecase }}</th>
@@ -133,5 +132,6 @@
         </tbody>
       </ng-template>
     </table>
+    <pagination-controls (pageChange)="cp=$event"></pagination-controls>
   </div>
 </section>

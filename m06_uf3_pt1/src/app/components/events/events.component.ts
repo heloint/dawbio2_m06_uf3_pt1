@@ -21,6 +21,7 @@ type TableFilters = {
   styleUrls: ['./events.component.css'],
 })
 export class EventsComponent implements OnInit {
+  cp: number = 1;
   tableData!: Array<Event>;
   rowNumberLimit: number = 20;
 
