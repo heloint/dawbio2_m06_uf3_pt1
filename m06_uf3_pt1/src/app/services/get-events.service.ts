@@ -49,6 +49,18 @@ export class GetEventsService {
     return new Date(fromTime + Math.random() * (toTime - fromTime));
   }
 
+  /* Adds leading digit ("0") if the number has only 1 digit.
+   * @num number
+   * @return string
+   * */
+  private addLeadingDigit(num: number): string {
+    let result: string = num.toString();
+    if (result.length <= 1) {
+      result = '0' + result;
+    }
+    return result;
+  }
+
   /* Generate N users objects.
    * @param number
    * @return Array<Event>
@@ -57,7 +69,8 @@ export class GetEventsService {
     let eventArr: Array<Event> = [];
 
     for (let i = 0; i <= userNum; i++) {
-      let name: string = `event${i}${i}`;
+      const iterNum: string = this.addLeadingDigit(i);
+      let name: string = `event${iterNum}`;
       let eventType: string =
         this.#eventTypes[Math.floor(Math.random() * this.#eventTypes.length)];
       let date: Date = this.getRandomDate(

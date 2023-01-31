@@ -50,6 +50,18 @@ export class ValidateCredentialsService implements OnInit {
     return collector;
   }
 
+  /* Adds leading digit ("0") if the number has only 1 digit.
+   * @num number
+   * @return string
+   * */
+  private addLeadingDigit(num: number): string {
+    let result: string = num.toString();
+    if (result.length <= 1) {
+      result = '0' + result;
+    }
+    return result;
+  }
+
   /* Generate N users objects.
    * @param number
    * @return Array<User>
@@ -58,8 +70,9 @@ export class ValidateCredentialsService implements OnInit {
     let userArr: Array<User> = [];
 
     for (let i = 0; i <= userNum; i++) {
-      let username: string = `user${i}${i}`;
-      let password: string = `password${i}`;
+      const iterNum: string = this.addLeadingDigit(i);
+      let username: string = `user${iterNum}`;
+      let password: string = `password${iterNum}`;
       let role: string =
         this.roles[Math.floor(Math.random() * this.roles.length)];
       let email: string = `user${i}@gmail.com`;
@@ -112,7 +125,7 @@ export class ValidateCredentialsService implements OnInit {
         )
       );
     }
-
+    console.log(userArr);
     return userArr;
   }
 
