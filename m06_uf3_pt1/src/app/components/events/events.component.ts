@@ -97,7 +97,6 @@ export class EventsComponent implements OnInit {
       JSON.parse(sessionStorage['tableFilters']).location,
       []
     ),
-    rowNums: new FormControl(this.rowNumberLimit, []),
   });
 
   /* Update the filters stored with "tableFilters" key in the sessionStorage.
