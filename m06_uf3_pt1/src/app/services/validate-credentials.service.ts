@@ -125,7 +125,6 @@ export class ValidateCredentialsService implements OnInit {
         )
       );
     }
-    console.log(userArr);
     return userArr;
   }
 

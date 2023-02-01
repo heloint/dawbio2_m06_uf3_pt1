@@ -171,7 +171,6 @@ export class EventsComponent implements OnInit {
             }
           }
         }
-        console.log({ matchCounter, filtersNum });
         if (matchCounter < filtersNum) {
           const objIndex: number = tmpTableData.indexOf(eventObj);
 
@@ -230,21 +229,9 @@ export class EventsComponent implements OnInit {
 
     if (eventIndex !== -1) {
       this.getEventsService.eventArr.splice(eventIndex, 1);
+      this.tableData = this.getEventsService.eventArr;
+      this.triggerAllFilters();
     }
-  }
-
-  /* Receives a number as an argument, and update the "this.rowNumberLimit"
-   * property of this class. This property is used for the view to limit the
-   * number of results displayed.
-   * @param rowNums number
-   * @return void
-   * */
-  public adjustRowNums(rowNums: number) {
-    if (isNaN(rowNums)) {
-      throw new Error('Parameter "rowNums" must be numeric value');
-    }
-
-    this.rowNumberLimit = rowNums;
   }
 
   ngOnInit() {
